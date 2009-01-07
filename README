@@ -1,27 +1,32 @@
-Twitter Vote Report
-https://votereport.pbwiki.com
+Inauguration Report '09
+
+Development Wiki: http://inaug09dev.pbwiki.com/
+Google Group: http://groups.google.com/group/inaug09dev?lnk=gcimh
 
 This application hosts a set of mechanisms desgined to pull polling place reports in from multiple sources, including:
 
 Twitter
-  Polls http://twittervision.com/votereport.json for latest #votereport Tweets
+  Polls http://twittervision.com/inaugreport.json for latest #votereport Tweets
 
 SMS
-  Accepts input from Mozes for SMS messages that contain #votereport
+  Accepts input from Mozes for SMS messages that contain:
+    #dctrip, #inaug09, #dctrip09, #inaug
 
 Telephone
   Accepts phone calls into an Asterisk system
   See adhearsion/components/vote_report/lib/votereport.rb
     
 iPhone
-  Accepts reports from the VoteReport dedicated iPhone application
+  Accepts reports from the Inauguration Report dedicated iPhone application
 
+Android
+  Accepts reports from the Inauguration Report dedicated Android application
 
 --
 LICENSE
 Made available under the MIT License.
 
-Copyright 2008 by the following authors and contributors:
+Copyright 2008 by the following authors and contributors, based on the VoteReport '08 app:
 
 David Troy, dave@roundhousetech.com
 Andrew Turner, andrew@highearthorbit.com
