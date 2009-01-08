@@ -87,7 +87,7 @@ module ReportHelper
     else
       rating_icon = "rating_good.png"
     end    
-    "http://votereport.us/images/#{rating_icon}"
+    "#{SERVER_URL}/images/#{rating_icon}"
   end
   
   def bumpspark2( results )

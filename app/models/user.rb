@@ -142,7 +142,7 @@ class User < ActiveRecord::Base
     self.day_query_count += 1
     self.last_query_at = Time.now
     self.save
-    raise VoteReport::APIError, "Exceeded query limit!" if (self.day_query_count > self.day_query_limit)  
+    raise Reporting::APIError, "Exceeded query limit!" if (self.day_query_count > self.day_query_limit)  
   end
 
   def record_update_stats
@@ -151,7 +151,7 @@ class User < ActiveRecord::Base
     self.day_update_count += 1
     self.last_update_at = Time.now
     self.save
-    raise VoteReport::APIError, "Exceeded update limit!" if (self.day_query_count > self.day_query_limit)  
+    raise Reporting::APIError, "Exceeded update limit!" if (self.day_query_count > self.day_query_limit)  
   end
   
   def terminate!

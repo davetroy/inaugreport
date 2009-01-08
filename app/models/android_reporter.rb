@@ -5,7 +5,7 @@ class AndroidReporter < Reporter
   self.column_names << 'latlon'   # needed to keep Reporter happy
     
   def source; "ADR"; end
-  def source_name; "VoteReport Android App"; end
+  def source_name; "#{APP_NAME} Android App"; end
   def icon; "/images/iphone_icon.png"; end
   
   private

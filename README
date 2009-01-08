@@ -6,7 +6,7 @@ Google Group: http://groups.google.com/group/inaug09dev?lnk=gcimh
 This application hosts a set of mechanisms desgined to pull polling place reports in from multiple sources, including:
 
 Twitter
-  Polls http://twittervision.com/inaugreport.json for latest #votereport Tweets
+  Polls http://twittervision.com/inaugreport.json for latest #inaugreport Tweets
 
 SMS
   Accepts input from Mozes for SMS messages that contain:

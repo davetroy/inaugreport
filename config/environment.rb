@@ -1,5 +1,10 @@
 # Be sure to restart your server when you modify this file
 
+PLATFORM_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/platform.yml")[RAILS_ENV]
+SERVER_URL = PLATFORM_CONFIG["url"]
+APP_TAG = PLATFORM_CONFIG["tag"]
+APP_NAME = PLATFORM_CONFIG["name"]
+
 # Uncomment below to force Rails into production mode when
 # you don't control web/app server and can't set it the proper way
 # ENV['RAILS_ENV'] ||= 'production'
@@ -9,6 +14,8 @@ RAILS_GEM_VERSION = '2.1.1' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
+
+require 'digest/sha1' #for the md5 session key below
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
@@ -49,8 +56,8 @@ Rails::Initializer.run do |config|
   # Make sure the secret is at least 30 characters and all random, 
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
-    :session_key => '_votereport_session',
-    :secret      => '8f840e1c215411faec0dfc2e4a94a17a1b75a9d33d57cfeea9cb9f5b8b2ee7fdad3556c6018a46d2b920fe44b24e882e136859d041d962c7936d2fdc6c4a6df3'
+    :session_key => "_#{APP_TAG}_session",
+    :secret      => Digest::SHA1.hexdigest(SERVER_URL + APP_TAG)[0..34]
   }
 
   # Use the database for sessions instead of the cookie-based default,

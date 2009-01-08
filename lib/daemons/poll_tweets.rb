@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] ||= defined?(Daemons) ? 'production' : 'development'
 
-FEED = "http://twittervision.com/votereport.json"
+# FIXME: pull in the platform.yml for the tag
+FEED = "http://twittervision.com/inaugreport.json"
 EXTRACTOR = Regexp.new(/^(\w+?):\s(.*)$/m)
 
 require File.dirname(__FILE__) + "/../../config/environment"

@@ -81,7 +81,7 @@ class Report < ActiveRecord::Base
   end
   
   def icon
-    self.reporter.icon =~ /http:/ ? self.reporter.icon : "http://votereport.us#{self.reporter.icon}"
+    self.reporter.icon =~ /http:/ ? self.reporter.icon : "#{SERVER_URL}#{self.reporter.icon}"
   end
     
   alias_method :ar_to_json, :to_json

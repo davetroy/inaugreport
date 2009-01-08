@@ -5,9 +5,9 @@ class IphoneReporter < Reporter
   self.column_names << 'latlon'   # needed to keep Reporter happy
     
   def source; "IPH"; end
-  def source_name; "VoteReport iPhone App"; end
+  def source_name; "#{APP_NAME} iPhone App"; end
   def icon; "/images/iphone_icon.png"; end
-  def audio_path; "http://iphone.votereport.us/audio"; end
+  def audio_path; "#{PLATFORM_CONFIG["iphone_url"]}/audio"; end
   
   private
   def set_location

@@ -2,7 +2,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom",
 "xmlns:georss" => "http://www.georss.org/georss",
 "xmlns:opensearch" => "http://a9.com/-/spec/opensearch/1.1/" do
 
-  xml.title "#votereport"
+  xml.title "##{APP_TAG}"
   xml.id reports_path(:only_path => false)
   xml.link    :rel => "self", :type => "application/atom+xml", :href => formatted_reports_path(:format => 'atom', :only_path => false )
   xml.link    :rel => "alternate", :type => "application/vnd.google-earth.kml+xml", :href => formatted_reports_path(:only_path => false, :format => 'kml')

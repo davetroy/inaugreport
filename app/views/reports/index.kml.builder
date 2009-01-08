@@ -1,7 +1,7 @@
 xml.kml("xmlns" => "http://earth.google.com/kml/2.2", 
     "xmlns:atom" => "http://www.w3.org/2005/Atom") do
   xml.tag! "Document" do
-    xml.name "#votereport"
+    xml.name "##{APP_TAG}"
     xml.description "Voting Reports for the 2008 election"
     xml.tag! "LookAt" do # look at the bounds of the US (approximately)
       xml.longitude -98

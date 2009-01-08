@@ -1,4 +1,4 @@
-module VoteReport
+module Reporting
   class Error < RuntimeError; end
   class APIError < Error; end
 end

@@ -21,5 +21,5 @@
 
 <ul id="syndication">
 	<li id="kml_link"><%= link_to "GoogleEarth"+image_tag("kml_icon.png", :alt => "KML")+"view", formatted_reports_url(:kml), :title => "Download the KML to view in GoogleEarth" %></li>
-	<li id="rss_link"><%= link_to "RSS"+image_tag("feed_icon.png", :alt => "RSS")+"subscribe", formatted_reports_url(:atom), :title => "Subscribe to #votereport GeoRSS-Atom feed" %></li>
+	<li id="rss_link"><%= link_to "RSS"+image_tag("feed_icon.png", :alt => "RSS")+"subscribe", formatted_reports_url(:atom), :title => "Subscribe to ##{APP_TAG} GeoRSS-Atom feed" %></li>
 </ul>
