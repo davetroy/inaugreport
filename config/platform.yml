@@ -1,0 +1,21 @@
+development:
+    name: InaugurationDev
+    url: http://localhost:4000
+    iphone_url: http://localhost:4000
+    audio_url: http://calls.inaugurationreport.com
+    tag: inaug09
+    
+test:
+    name: InaugurationTest
+    url: http://localhost:4000
+    iphone_url: http://localhost:4000
+    audio_url: http://calls.inaugurationreport.com
+    tag: inaug09
+
+production:
+    name: InaugurationReport
+    url: http://inaugurationreport.com
+    iphone_url: http://iphone.inaugurationreport.com
+    audio_url: http://calls.inaugurationreport.com
+    tag: inaug09
+
