@@ -1,6 +1,7 @@
 class AndroidReporter < Reporter
   before_create :set_location
-
+  validates_format_of :uniqueid, :with => /^\d{14,16}/, :on => create, :message => "Invalid IMEI"
+  
   attr_accessor :latlon
   self.column_names << 'latlon'   # needed to keep Reporter happy
     

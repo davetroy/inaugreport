@@ -1,5 +1,6 @@
 class IphoneReporter < Reporter
   before_create :set_location
+  validates_format_of :uniqueid, :with => /^[\d\-A-F]{36,40}$/i, :on => create, :message => "Invalid UDID"
 
   attr_accessor :latlon
   self.column_names << 'latlon'   # needed to keep Reporter happy

@@ -1,10 +1,8 @@
 class ReportsController < ApplicationController
-  protect_from_forgery :except => [:create, :auto_complete_for_report_tag_s]
+  protect_from_forgery :except => [:create]
   before_filter :filter_from_params, :only => [ :index, :reload, :map, :chart, :stats ]
   before_filter :login_required, :except => [:create, :index, :show, :chart, :stats, :map, :reload]
-  
-  auto_complete_for :report, :tag_s
-  
+    
   # GET /reports
   def index
     respond_to do |format|
@@ -192,7 +190,7 @@ class ReportsController < ApplicationController
   end
   
   # POST /reports
-  # Used by iPhone app and API users
+  # Used by iPhone & Android app; could be used for other APIs
   def create
     respond_to do |format|
       format.iphone do
@@ -206,15 +204,9 @@ class ReportsController < ApplicationController
     end
   end
   
-  def auto_complete_for_report_tag_s
-    auto_complete_responder_for_report_tag_s params[:report][:tag_s]
-  end
-  
   private
   # Store an iPhone-generated report given a hash of parameters
-  # Check for a valid iPhone UDID
   def save_iphone_report(info)
-    raise "Invalid UDID" unless info[:reporter][:uniqueid][/^[\d\-A-F]{36,40}$/i]
     reporter = IphoneReporter.update_or_create(info[:reporter])
     report = reporter.reports.create(info[:report].merge(:latlon => info[:reporter][:latlon]))
     if audiofile = params[:uploaded]
@@ -230,23 +222,13 @@ class ReportsController < ApplicationController
   end
   
   # Store an Android-generated report given a hash of parameters
-  # Check for a valid Android IMEI
   def save_android_report(info)
-    raise "Invalid IMEI" unless info[:reporter][:uniqueid][/^\d{14,16}/]
     reporter = AndroidReporter.update_or_create(info[:reporter])
-    report = reporter.reports.create(info[:report].merge(:polling_place => polling_place, :latlon => info[:reporter][:latlon]))
+    report = reporter.reports.create(info[:report].merge(:latlon => info[:reporter][:latlon]))
     "OK"
   rescue => e
     logger.info "*** ANDROID ERROR: #{e.class}: #{e.message}\n\t#{e.backtrace.first}"
     "ERROR"
   end
   
-  def auto_complete_responder_for_report_tag_s(value)
-    items = []
-    unless value.blank?
-      value = value.gsub(/^#/,"")
-      items = Tag.listing.select{ |tag| tag.pattern.index(value.downcase) == 0 }.collect{ |t| t.pattern.gsub(/\?(.+)/,'mm') }
-    end
-    render :partial => 'autocomplete', :locals => { :items => items }
-  end
 end
