@@ -17,10 +17,13 @@ Telephone
   See adhearsion/components/vote_report/lib/votereport.rb
     
 iPhone
-  Accepts reports from the Inauguration Report dedicated iPhone application
+  Accepts audio, photo, and text reports from the Inauguration Report dedicated iPhone application
 
 Android
   Accepts reports from the Inauguration Report dedicated Android application
+
+Email
+  Email text, photos, or audio to "report@inaugurationreport.com"
 
 --
 LICENSE
