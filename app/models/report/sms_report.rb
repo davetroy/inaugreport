@@ -1,0 +1,2 @@
+class SmsReport < Report
+end
