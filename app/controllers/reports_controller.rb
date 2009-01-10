@@ -216,8 +216,7 @@ class ReportsController < ApplicationController
   def save_iphone_report(info)
     raise "Invalid UDID" unless info[:reporter][:uniqueid][/^[\d\-A-F]{36,40}$/i]
     reporter = IphoneReporter.update_or_create(info[:reporter])
-    polling_place = PollingPlace.match_or_create(info[:polling_place][:name], reporter.location)
-    report = reporter.reports.create(info[:report].merge(:polling_place => polling_place, :latlon => info[:reporter][:latlon]))
+    report = reporter.reports.create(info[:report].merge(:latlon => info[:reporter][:latlon]))
     if audiofile = params[:uploaded]
       fn = "#{AUDIO_UPLOAD_PATH}/#{report.uniqueid}.caf"
       File.open(fn, 'w') { |f| f.write audiofile.read }
@@ -225,9 +224,9 @@ class ReportsController < ApplicationController
       report.update_attribute(:has_audio, true)
     end
     "OK"
-  # rescue => e
-  #   logger.info "*** IPHONE ERROR: #{e.class}: #{e.message}\n\t#{e.backtrace.first}"
-  #   "ERROR"
+  rescue => e
+    logger.info "*** IPHONE ERROR: #{e.class}: #{e.message}\n\t#{e.backtrace.first}"
+    "ERROR"
   end
   
   # Store an Android-generated report given a hash of parameters
@@ -235,7 +234,6 @@ class ReportsController < ApplicationController
   def save_android_report(info)
     raise "Invalid IMEI" unless info[:reporter][:uniqueid][/^\d{14,16}/]
     reporter = AndroidReporter.update_or_create(info[:reporter])
-    polling_place = PollingPlace.match_or_create(info[:polling_place][:name], reporter.location)
     report = reporter.reports.create(info[:report].merge(:polling_place => polling_place, :latlon => info[:reporter][:latlon]))
     "OK"
   rescue => e
@@ -246,9 +244,7 @@ class ReportsController < ApplicationController
   def auto_complete_responder_for_report_tag_s(value)
     items = []
     unless value.blank?
-      if value.starts_with? "#"
-        value = value.gsub(/#/,"")
-      end
+      value = value.gsub(/^#/,"")
       items = Tag.listing.select{ |tag| tag.pattern.index(value.downcase) == 0 }.collect{ |t| t.pattern.gsub(/\?(.+)/,'mm') }
     end
     render :partial => 'autocomplete', :locals => { :items => items }
