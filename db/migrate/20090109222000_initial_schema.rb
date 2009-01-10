@@ -94,12 +94,10 @@ class InitialSchema < ActiveRecord::Migration
       t.column "uniqueid", :string, :limit => 20
       t.column "text", :string
       t.column "score", :integer
-      t.column "zip", :string, :limit => 5
-      t.column "wait_time", :integer
-      t.column "rating", :integer
+      t.column "parent_report_id", :integer
+      t.column "filetype", :string, :limit => 5
       t.column "location_accuracy", :integer
       t.column "reviewer_id", :integer
-      t.column "tag_s", :string
       t.column "created_at", :datetime
       t.column "updated_at", :datetime
       t.column "assigned_at", :datetime

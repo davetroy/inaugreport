@@ -5,6 +5,7 @@ class PhoneReporter < Reporter
   def icon; "/images/phone_icon.jpg"; end
   def audio_path; PLATFORM_CONFIG["audio_path"]; end
   def name; screen_name || "Telephone User"; end
+  def audio_filetype; "gsm"; end
   
   private
   def initialize_location

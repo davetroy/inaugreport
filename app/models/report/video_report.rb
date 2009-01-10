@@ -1,0 +1,2 @@
+class VideoReport < Report
+end

@@ -1,9 +1,9 @@
 class Report < ActiveRecord::Base
 	
   validates_presence_of :reporter_id
-  validates_uniqueness_of :uniqueid, :scope => :source, :allow_blank => true, :message => 'already processed'
+  validates_uniqueness_of :uniqueid, :scope => :type, :allow_blank => true, :message => 'already processed'
   
-  attr_accessor :latlon, :tag_string   # virtual field supplied by iphone/android
+  attr_accessor :latlon   # virtual field supplied by iphone/android
   
   belongs_to :location
   belongs_to :reporter
@@ -15,9 +15,8 @@ class Report < ActiveRecord::Base
   has_many :report_filters, :dependent => :destroy
   has_many :filters, :through => :report_filters
 
-  before_validation :set_source
   before_create :detect_location, :append_tags
-  # check uniqueid must be AFTER create because otherwise it doesn't have an ID
+  # check_uniqueid must be AFTER create because otherwise it doesn't have an ID
   after_create :check_uniqueid, :assign_filters, :assign_tags, :auto_review
   
   named_scope :with_location, :conditions => 'location_id IS NOT NULL'
@@ -40,7 +39,7 @@ class Report < ActiveRecord::Base
   end
 
   cattr_accessor :public_fields
-  @@public_fields = [:id,:source,:text,:score,:zip,:created_at,:updated_at]
+  @@public_fields = [:id,:text,:score,:zip,:created_at,:updated_at]
 
   def name
     self.reporter.name
@@ -124,34 +123,7 @@ class Report < ActiveRecord::Base
                         :include => [:location, :reporter, :polling_place])
     end
   end
-  
-  ## cached tags string
-  def tag_s
-    self[:tag_s]
-  end
-  
-  # updates tag string cache
-  def cache_tags
-    self[:tag_s] =  self.tags.collect{|tag| tag.pattern}.reject{|p| p.starts_with?('wait') }.sort.join(' ')
-  end
-  
-  # over-ride tag_s accessor to set self.tags from given string
-  # where input is just tags, a la "machine challenges good bad"
-  def tag_s=(text)
-    text ||= "" # coerce nil values to empty strings
-    # standardize white-space and strip out the octothorpe
-    text = text.strip.gsub(/#/, '') # dont use strip! will return nil if not modified
-    new_tags = []
-    Tag.find(:all).each do |t|
-      if text[/#{t.pattern}/i]
-        new_tags << t
-      end
-    end
-    self.tags = new_tags.uniq.compact # exclude any duplicate and nil values 
-    self.score = self.tags.inject(0) { |sum, t| sum+t.score }
-    self.cache_tags # cache tags string
-  end
-  
+      
   # Subsititute text for reports that have none
   def display_text
     return self.text unless self.text.blank?
@@ -198,11 +170,6 @@ class Report < ActiveRecord::Base
 
     html
   end
-  
-  def audio_file
-    "#{uniqueid}." + (self.source=='IPH' ? 'caf' : 'gsm')
-  end
-
 
   def self.hourly_usage
     ActiveRecord::Base.connection.select_all(%Q{select count(*) as count, HOUR(created_at)-4 as hour from reports WHERE created_at > "2008-11-04" group by HOUR(created_at)})    
@@ -210,6 +177,7 @@ class Report < ActiveRecord::Base
   
   private
 
+  # Populate a uniqueid if not supplied by the reporting mechanism
   def check_uniqueid
     update_attribute(:uniqueid, "#{Time.now.to_i}.#{self.id}") if self.uniqueid.nil?
     true
@@ -229,23 +197,7 @@ class Report < ActiveRecord::Base
     ll, self.location_accuracy = self.latlon.split(/:/) if self.latlon
     true
   end
-  
-  # append tag_string to report text if supplied (iphone, android)
-  def append_tags
-    self.text += (" "+self.tag_string) if !self.tag_string.blank?
-    true
-  end
-  
-  # What tags are associated with this report?
-  # Find them and store for easy reference later
-  def assign_tags
-    if self.text
-      self.tag_s = self.text.scan(/\s+\#\S+/).join(' ')
-      save
-    end
-    true
-  end
-  
+    
   # What location filters apply to this report?  US, MD, etc?
   def assign_filters
     if self.location_id && self.location.filter_list
