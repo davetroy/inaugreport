@@ -1,0 +1,2 @@
+class TwitterReport < Report
+end

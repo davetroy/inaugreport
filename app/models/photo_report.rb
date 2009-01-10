@@ -1,0 +1,2 @@
+class AudioReport < Report
+end
