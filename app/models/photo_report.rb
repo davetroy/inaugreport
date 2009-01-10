@@ -1,2 +1,2 @@
-class AudioReport < Report
+class PhotoReport < Report
 end

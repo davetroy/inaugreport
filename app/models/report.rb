@@ -266,29 +266,6 @@ class Report < ActiveRecord::Base
     true
   end
   
-  def assign_wait_time
-    return true unless self.text
-    
-    case self.text
-    when /wait(\d{1,4})/     # waitNUM
-      self.wait_time = $1
-    when /wait:(\d{1,4})/    # wait:NUM
-      self.wait_time = $1
-    when /wait\s+(\d{1,4})/  # wait NUM
-      self.wait_time = $1
-    when /\s(\d)(\s+|\-)hours?/      # NUM hour(s) or NUM-hour(s)
-      self.wait_time = $1.to_i * 60 
-    when /\s(\d{1,4})(\s+|\-)minutes?/   # NUM minute(s) or NUM-minute(s)
-      self.wait_time = $1
-    end
-    
-    if self.wait_time && self.wait_time > MAXIMUM_WAIT_TIME
-      # TODO : flag this report for special review
-      self.wait_time = MAXIMUM_WAIT_TIME
-    end
-    true
-  end
-  
   # What location filters apply to this report?  US, MD, etc?
   def assign_filters
     if self.location_id && self.location.filter_list
