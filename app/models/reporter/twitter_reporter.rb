@@ -1,7 +1,6 @@
 class TwitterReporter < Reporter
   before_save :set_location
 
-  def source; "TWT"; end
   def source_name; "Twitter"; end
   def icon; profile_image_url; end
   
