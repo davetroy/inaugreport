@@ -1,0 +1,2 @@
+class TextReport < Report
+end
