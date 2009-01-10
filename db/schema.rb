@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081108124300) do
+ActiveRecord::Schema.define(:version => 20090109222000) do
 
   create_table "alert_viewings", :force => true do |t|
     t.column "user_id", :integer
@@ -67,17 +67,6 @@ ActiveRecord::Schema.define(:version => 20081108124300) do
 
   add_index "locations", ["point"], :name => "index_locations_on_point", :spatial=> true 
 
-  create_table "polling_places", :force => true do |t|
-    t.column "location_id", :integer
-    t.column "name", :string, :limit => 80
-    t.column "address", :string, :limit => 80
-    t.column "city", :string, :limit => 80
-    t.column "state", :string, :limit => 2
-    t.column "zip", :string, :limit => 10
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
-  end
-
   create_table "report_filters", :options=>'ENGINE=MyISAM', :force => true do |t|
     t.column "report_id", :integer
     t.column "filter_id", :integer
@@ -110,7 +99,7 @@ ActiveRecord::Schema.define(:version => 20081108124300) do
   add_index "reporters", ["uniqueid", "type"], :name => "index_reports_on_uniqueid_and_type", :unique => true
 
   create_table "reports", :force => true do |t|
-    t.column "source", :string, :limit => 3
+    t.column "type", :string, :limit => 30
     t.column "reporter_id", :integer
     t.column "location_id", :integer
     t.column "uniqueid", :string, :limit => 20
@@ -118,23 +107,21 @@ ActiveRecord::Schema.define(:version => 20081108124300) do
     t.column "score", :integer
     t.column "zip", :string, :limit => 5
     t.column "wait_time", :integer
-    t.column "polling_place_id", :integer
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
     t.column "rating", :integer
     t.column "location_accuracy", :integer
-    t.column "has_audio", :boolean
+    t.column "reviewer_id", :integer
+    t.column "tag_s", :string
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
     t.column "assigned_at", :datetime
     t.column "reviewed_at", :datetime
-    t.column "reviewer_id", :integer
     t.column "dismissed_at", :datetime
-    t.column "tag_s", :string
     t.column "is_chatter", :boolean, :default => false
-    t.column "polling_place_name", :string
   end
 
   add_index "reports", ["created_at"], :name => "index_reports_on_created_at"
   add_index "reports", ["reviewer_id"], :name => "index_reports_on_reviewer_id"
+  add_index "reports", ["type"], :name => "index_reports_on_type"
 
   create_table "reviewer_alerts", :force => true do |t|
     t.column "text", :string
@@ -149,7 +136,7 @@ ActiveRecord::Schema.define(:version => 20081108124300) do
     t.column "sort", :integer, :default => 0
     t.column "string_value", :string
     t.column "integer_value", :integer
-    t.column "decimal_value", :integer, :limit => 10
+    t.column "decimal_value", :integer
   end
 
   create_table "tags", :force => true do |t|

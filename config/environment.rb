@@ -1,10 +1,5 @@
 # Be sure to restart your server when you modify this file
 
-PLATFORM_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/platform.yml")[RAILS_ENV]
-SERVER_URL = PLATFORM_CONFIG["url"]
-APP_TAG = PLATFORM_CONFIG["tag"]
-APP_NAME = PLATFORM_CONFIG["name"]
-
 # Uncomment below to force Rails into production mode when
 # you don't control web/app server and can't set it the proper way
 # ENV['RAILS_ENV'] ||= 'production'
@@ -14,6 +9,11 @@ RAILS_GEM_VERSION = '2.2.2' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
+
+PLATFORM_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/platform.yml")[RAILS_ENV]
+SERVER_URL = PLATFORM_CONFIG["url"]
+APP_TAG = PLATFORM_CONFIG["tag"]
+APP_NAME = PLATFORM_CONFIG["name"]
 
 require 'digest/sha1' #for the md5 session key below
 
@@ -40,6 +40,7 @@ Rails::Initializer.run do |config|
 
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
+  config.load_paths += Dir["#{RAILS_ROOT}/app/models/**"]
 
   # Force all environments to use the same logger level
   # (by default production uses :info, the others :debug)
@@ -74,7 +75,6 @@ Rails::Initializer.run do |config|
   # config.active_record.observers = :cacher, :garbage_collector
   
   config.gem 'mislav-will_paginate', :version => '~> 2.3.2', :lib => 'will_paginate', :source => 'http://gems.github.com'
-  config.gem 'ya2yaml', :version => '= 0.26'
   config.gem 'json', :version => '= 1.1.3'
   config.gem 'GeoRuby', :lib => 'geo_ruby', :version => '>= 1.3.3'
   config.gem 'haml', :version => ">= 2.0.4"

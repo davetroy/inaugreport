@@ -1,2 +1,0 @@
-class TextReport < Report
-end

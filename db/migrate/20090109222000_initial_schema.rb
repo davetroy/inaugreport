@@ -1,4 +1,4 @@
-class CreateReports < ActiveRecord::Migration
+class InitialSchema < ActiveRecord::Migration
   def self.up
     create_table "alert_viewings", :force => true do |t|
       t.column "user_id", :integer
