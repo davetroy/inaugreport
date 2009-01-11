@@ -79,7 +79,7 @@ class Report < ActiveRecord::Base
   alias_method :ar_to_json, :to_json
   def to_json(options = {})
     options[:only] = @@public_fields
-    # options[:include] = [ :reporter, :polling_place ]
+    # options[:include] = [ :reporter ]
     # options[:except] = [ ]
     options[:methods] = [ :audio_link, :display_text, :display_html, :rating, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) #lets us include current_items from feeds_controller#show
     # options[:additional] = {:page => options[:page] }
@@ -126,8 +126,7 @@ class Report < ActiveRecord::Base
   # Subsititute text for reports that have none
   def display_text
     return self.body unless self.body.blank?
-    # [rating        ? "rating #{rating}" : nil,
-    #  polling_place ? "polling place: #{polling_place.name}" : nil].compact.join(', ')    
+    [rating        ? "rating #{rating}" : nil ].compact.join(', ')    
   end
   
 
@@ -186,7 +185,7 @@ class Report < ActiveRecord::Base
   def detect_location
     if !self.location.nil?
       # we already have a geocoded location, so move along
-    elsif self.respond_to?(:latlon)
+    elsif self.respond_to?(:latlon) && self.latlon
       latlon, self.location_accuracy = self.latlon.split(/:/)
       self.location = Location.geocode(latlon)
     elsif self.body
