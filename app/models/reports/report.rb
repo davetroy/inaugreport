@@ -81,9 +81,10 @@ class Report < ActiveRecord::Base
     options[:only] = @@public_fields
     # options[:include] = [ :reporter ]
     # options[:except] = [ ]
-    options[:methods] = [ :media_link, :class, :display_text, :display_html, :score, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) #lets us include current_items from feeds_controller#show
+    options[:methods] = [ :media_link, :class, :display_text, :display_html, :score, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) 
     # options[:additional] = {:page => options[:page] }
-    ar_to_json(options)
+    # ar_to_json(options)
+    (options[:only] + options[:methods]).inject({}) {|result,field| result[field] = self.send(field); result }.to_json
   end    
 
   def media_link

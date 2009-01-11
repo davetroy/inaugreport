@@ -17,7 +17,7 @@ xml.kml("xmlns" => "http://earth.google.com/kml/2.2",
         xml.tag! "Style" do
           xml.tag! "IconStyle" do
             xml.tag! "Icon" do
-              xml.href score_icon(report.rating)
+              xml.href score_icon(report.score)
             end
           end unless report.reporter.nil?
           xml.tag! "LabelStyle" do
@@ -45,7 +45,7 @@ xml.kml("xmlns" => "http://earth.google.com/kml/2.2",
   </span>
 </div>}
               # balloonText = "$[description] by $[screen_name]"
-              # balloonText << "<br />Rating: <img src='#{rating_icon(report.rating)}' /> (#{report.rating}%)" unless report.rating.nil?
+              # balloonText << "<br />score: <img src='#{score_icon(report.score)}' /> (#{report.score}%)" unless report.score.nil?
             xml.text balloonText
             xml.textColor "ff084156"
             xml.color "ffffffff"
@@ -56,7 +56,7 @@ xml.kml("xmlns" => "http://earth.google.com/kml/2.2",
         end unless report.reporter.nil?
         xml.atom( :link, :href => report_url(:id => report, :only_path => false ), :rel => "alternate", :type => "text/html")
         xml.tag! "ExtendedData" do
-          %w{wait_time score rating}.each do |attribute|
+          %w{wait_time score}.each do |attribute|
             xml.tag! "Data", :name => attribute do
               xml.value report.send(attribute) 
             end

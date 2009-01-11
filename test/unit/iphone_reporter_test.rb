@@ -17,11 +17,11 @@ class IphoneReporterTest < ActiveSupport::TestCase
   end
 end
 
-# report = reporter.reports.create(:text => 'all is well in l:New York', :rating => '62', :tag_string => '#machine #registration', :latlon => '39.024,-76.511:2192',
+# report = reporter.reports.create(:text => 'all is well in l:New York', :score => '62', :tag_string => '#machine #registration', :latlon => '39.024,-76.511:2192',
 #                                   :polling_place => PollingPlace.create(:name => 'Elem School') )
 # assert_equal 1, reporter.reports.size
 # assert_equal "New York, NY, USA", report.location.address
-# assert_equal 62, report.rating
+# assert_equal 62, report.score
 # assert_equal 2, report.tags.size
 # assert_equal 2192, report.location_accuracy.to_i
 # assert report.uniqueid.ends_with?(report.id)
