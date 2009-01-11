@@ -1,10 +1,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <%= stylesheet_link_tag 'reports' %>
+  <%= stylesheet_link_tag 'main','reports' %>
   <%= yield :style %>
   <%= yield :head %>
   <title><%= APP_NAME %></title>
-	<%= javascript_include_tag 'application' %>
+	<%= javascript_include_tag 'prototype','effects','application' %>
 	<%= yield :javascript %>
 	<link rel="search" type="application/opensearchdescription+xml" title="#<%= APP_TAG %>" href="<%= SERVER_URL %>/opensearch.xml" />
 	<%- [:atom, :kml].each do |format| -%>
@@ -13,10 +13,84 @@
 
 </head>
 <body>
+    <div id='header'>
+      <div class='header'>
+        <div id='logo'>
+          <a href="/"><%= APP_NAME %></a>
+			<ul id="syndication" style="display:none">
+				<li id="kml_link"><%= link_to "GoogleEarth"+image_tag("kml_icon.png", :alt => "KML")+"view", formatted_reports_url(:kml), :title => "Download the KML to view in GoogleEarth" %></li>
+				<li id="rss_link"><%= link_to "RSS"+image_tag("feed_icon.png", :alt => "RSS")+"subscribe", formatted_reports_url(:atom), :title => "Subscribe to ##{APP_TAG} GeoRSS-Atom feed" %></li>
+			</ul>
+
+        </div>
+      </div>
+    </div>
 
 <p style="color: green"><%= flash[:notice] %></p>
-<%= yield  %>
 
-
-</body>
+    <div id='content'>
+      <div class='content'>
+        <div class='c_main a_index' id='page'>
+          <div class='page'>
+            <div id='maker_map'>
+				<%= yield  %>
+              <div class='loading' style="display:none"></div>
+            </div>
+          </div>
+        </div>
+        <div id='side'>
+          <div class='side'>
+            <div class='panel' id='panel_welcome'>
+              <label><a href="#" class="expand expand_welcome">Welcome</a></label>
+              <div class='short'>
+                <p>Be a part of the Inauguration in a brand new way. Explore realtime reports from around the world from people on their way to the Inauguration.</p>
+                <a href="#" class="expand expand_welcome">more &raquo;</a>
+              </div>
+              <div class='long' style='display:none'>
+                ["Welcome" will be displayed here.]
+              </div>
+            </div>
+            <div class='panel' id='panel_explore'>
+              <label><a href="#" class="expand expand_explore">Explore</a></label>
+              <div class='short' style='display:none'>
+                Change between the map and list of reports.
+                <a href="#" class="expand expand_explore">more &raquo;</a>
+              </div>
+              <div class='long'>
+                <div class='longb'>
+                  <div id='explore'>Loading... [will show controls for switching map/list view]</div>
+                </div>
+              </div>
+            </div>
+            <div class='panel' id='panel_participate'>
+              <label><a href="#" class="expand expand_participate">Participate</a></label>
+              <div class='short'>
+                Want to contribute reports to <%= APP_NAME %>?
+                <a href="#" class="expand expand_participate">more &raquo;</a>
+              </div>
+              <div class='long' style='display:none'>
+                ["Participation" will be displayed here.]
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id='footer'>
+      <div class='footer fl_r'>
+        <div class='l'>Website Design &copy; 2009 FortiusOne</div>
+        <div class='r'>
+          Brought to you by
+          <a href="http://npr.org">NPR</a> |
+          <a href="http://cbs.com">CBS</a> |
+          <a href="http://www.american.edu">American University</a> |
+          <a href="http://twittervision.com">TwitterVision</a> |
+          <a href="http://geocommons.com">GeoCommons</a>
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      Accordion.initialize()
+    </script>
+  </body>
 </html>

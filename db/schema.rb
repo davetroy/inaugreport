@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090109222000) do
+ActiveRecord::Schema.define(:version => 0) do
 
   create_table "alert_viewings", :force => true do |t|
     t.column "user_id", :integer

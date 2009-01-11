@@ -63,3 +63,50 @@ function reviewer_time_limit_reached() {
         "browser doesn't do it automatically.");
   window.location.reload();
 }
+
+var Accordion = {
+  initialize: function(ev) {
+    $$('.expand').invoke('observe','click', Accordion.pick)
+    Accordion.panels = $$('.panel')
+  },
+  pick: function(ev) {
+    ev.stop();
+    el = ev.element()
+    panel = $("panel_" + id_from_class_pair(el, "expand"))
+    Accordion.panels.without(panel).each(function(panel){
+      Accordion.transition(panel, 'minimize')
+    })
+    Accordion.transition(panel, 'maximize')
+  },
+  transition: function(panel,action) {
+    var lng  = $$('#'+panel.id +' .long' ).first()    
+    var shrt = $$('#'+panel.id +' .short').first()
+    if (action=='maximize' && !lng.visible()) {
+      Accordion.tween_swap(shrt, lng)
+    } 
+    if (action=='minimize' && lng.visible()) {
+      Accordion.tween_swap(lng, shrt)
+    }
+  },
+  
+  tween_swap: function(from,to) {
+    to.style.overflow = 'hidden'
+    to.style.visibility = 'hidden'  //visibility hack required in order to get an accurate height calculation on a 'display:none' object.
+    to.show()
+    var heightStart = from.getHeight()
+    var heightEnd = to.getHeight()
+    to.style.height = heightStart + 'px'
+    to.style.visibility = 'visible'
+    from.hide() 
+    new Effect.Tween(to, heightStart, heightEnd, {duration: 0.5}, function(v){this.style.height = v + 'px'});
+  } 
+}
+
+
+// Retrieves the id from a class name pair such as: "open_overlay open_overlay_23"
+// So, id_from_class_pair(el,"open") will return "overlay_23"
+// or, id_from_class_pair(el,"open_overlay") will return "23"
+function id_from_class_pair(el, action) {
+  var r = new RegExp(".*"+action+"_([^ ]+).*")
+  return el.className.replace(r,'$1')
+}

@@ -1,6 +1,6 @@
 <div id="<%= dom_id(report) %>" class="hentry report">
 	<% if report.reporter.class == TwitterReporter %>
-	<%= link_to image_tag(report.reporter.icon, :class => "profile", :target=>"new"), report.reporter.profile %>
+	<%# link_to image_tag(report.reporter.icon, :class => "profile", :target=>"new"), report.reporter.profile %>
 	<% else %>
   <img src="<%=report.reporter.icon%>" class="profile">
 	<% end %>
@@ -12,6 +12,6 @@
 	<% end %>  	
     <%="in <span class=\"adr\">#{report.location.address}</span>" if report.location%>
     via <%=report.reporter.source_name%><br/>
-    <%=audio_link(report)%>
+    <%#audio_link(report)%>
   </span>
 </div>
