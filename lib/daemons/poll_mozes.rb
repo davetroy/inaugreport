@@ -43,7 +43,7 @@ while($running) do
                                                    'profile_image_url' => image_src,
                                                    'screen_name' => screen_name)
           debug "creating report..."
-          reporter.reports.create!(:text => text.strip,
+          reporter.text_reports.create!(:body => text.strip,
                          :uniqueid => (item/:guid).inner_text.strip,
                          :created_at => item_tstamp)
         end
