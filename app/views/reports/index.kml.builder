@@ -9,7 +9,7 @@ xml.kml("xmlns" => "http://earth.google.com/kml/2.2",
       xml.altitude 8900000
     end    
     xml.tag! "NetworkLink" do
-      xml.name "#votereport live updating"
+      xml.name "##{APP_TAG} live updating"
       xml.tag! "Link" do
         xml.href kml_feed_url(:count => 4000)
         xml.refreshMode "onInterval"
