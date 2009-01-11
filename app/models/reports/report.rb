@@ -7,7 +7,6 @@ class Report < ActiveRecord::Base
   
   belongs_to :location
   belongs_to :reporter
-  belongs_to :polling_place
   belongs_to :reviewer, :class_name => "User"
   
   has_many :report_tags, :dependent => :destroy
@@ -80,9 +79,9 @@ class Report < ActiveRecord::Base
   alias_method :ar_to_json, :to_json
   def to_json(options = {})
     options[:only] = @@public_fields
-    # options[:include] = [ :reporter, :polling_place ]
+    # options[:include] = [ :reporter ]
     # options[:except] = [ ]
-    options[:methods] = [ :audio_link, :display_text, :display_html, :rating, :name, :icon, :reporter, :polling_place, :location ].concat(options[:methods]||[]) #lets us include current_items from feeds_controller#show
+    options[:methods] = [ :audio_link, :display_text, :display_html, :rating, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) #lets us include current_items from feeds_controller#show
     # options[:additional] = {:page => options[:page] }
     ar_to_json(options)
   end    
@@ -120,15 +119,14 @@ class Report < ActiveRecord::Base
       Report.paginate( :page => filters[:page] || 1, :per_page => filters[:per_page] || 10, 
                         :order => 'created_at DESC',
                         :conditions => conditions,
-                        :include => [:location, :reporter, :polling_place])
+                        :include => [:location, :reporter])
     end
   end
       
   # Subsititute text for reports that have none
   def display_text
     return self.body unless self.body.blank?
-    [rating        ? "rating #{rating}" : nil,
-     polling_place ? "polling place: #{polling_place.name}" : nil].compact.join(', ')    
+    [rating        ? "rating #{rating}" : nil ].compact.join(', ')    
   end
   
 
