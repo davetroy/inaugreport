@@ -150,20 +150,20 @@ for (var i = 0; i < features.length; i++) {
 		switch(item.location.location.point.type) {
 			case "Point":
 			var icon_size; var icon;
-            if(item.rating != null) {
-                if(item.rating <= 30)
-                    icon = "/images/rating_bad.png"
-                else if (item.rating <= 70)
-                    icon = "/images/rating_medium.png"
+            if(item.score != null) {
+                if(item.score <= 30)
+                    icon = "/images/score_bad.png"
+                else if (item.score <= 70)
+                    icon = "/images/score_medium.png"
                 else
-                    icon = "/images/rating_good.png"
+                    icon = "/images/score_good.png"
             }
 			else if(item.icon == "" || item.icon == null){
 				icon = "/images/gmaps/pushpins/webhues/159.png" 
 				icon_size = [10,17];
 				
 			} else {
-                icon = "/images/rating_none.png"
+                icon = "/images/score_none.png"
                 // icon = item.icon;
 			}
 			icon_scale = 0.18 * item.wait_time + 10;
@@ -174,9 +174,9 @@ for (var i = 0; i < features.length; i++) {
             // html = "<div class='balloon'><strong><img src='" + item.icon + "'>" + item.name + "</strong><br />" + item.display_text + "<br />";
             html = item.display_html;
 
-            //             if(item.rating != null)
-            //                 html += "Rating: <img src='"+icon+"'/> ("+item.rating+"%)";
-            //             if(item.rating != null)
+            //             if(item.score != null)
+            //                 html += "score: <img src='"+icon+"'/> ("+item.score+"%)";
+            //             if(item.score != null)
             //                 html += "<br />Wait time: "+ item.wait_time+" min";
             //             if(item.location.location.address != null)
             //                 html += "<br />Location: "+ item.location.location.address+" min";

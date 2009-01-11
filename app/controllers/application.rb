@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     @page = params[:page] ||= 1
     
     @filters = {:page => @page, :per_page => @per_page}
-    [:q, :name, :wait_time, :dtstart, :dtend, :rating, :filter, :zip, :postal, :city, :state].each do |p|
+    [:q, :name, :dtstart, :dtend, :score, :filter, :zip, :postal, :city, :state].each do |p|
       @filters[p] = params[p] if params[p]
     end
   end

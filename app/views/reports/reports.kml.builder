@@ -17,7 +17,7 @@ xml.kml("xmlns" => "http://earth.google.com/kml/2.2",
         xml.tag! "Style" do
           xml.tag! "IconStyle" do
             xml.tag! "Icon" do
-              xml.href rating_icon(report.rating)
+              xml.href score_icon(report.rating)
             end
           end unless report.reporter.nil?
           xml.tag! "LabelStyle" do

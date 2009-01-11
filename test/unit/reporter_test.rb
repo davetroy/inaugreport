@@ -17,10 +17,10 @@ class ReporterTest < ActiveSupport::TestCase
     assert_match /Elbridge/, reporter.profile_location
     assert_nil reporter.followers_count
     assert_equal "VoteReport Android App", reporter.source_name
-    report = reporter.reports.create(:uniqueid => nil, :text => 'all is well in l:Birmingham, AL', :rating => '78', :latlon => '39.024,-76.511:2192')
+    report = reporter.reports.create(:uniqueid => nil, :text => 'all is well in l:Birmingham, AL', :score => '78', :latlon => '39.024,-76.511:2192')
     assert_equal 1, reporter.reports.size
     assert_equal "Birmingham, AL, USA", report.location.address
-    assert_equal 78, report.rating
+    assert_equal 78, report.score
     assert_equal 0, report.tags.size
     assert report.uniqueid.ends_with?(report.id)
     # assert_equal 1400, report.location_accuracy

@@ -10,7 +10,7 @@
 		<li>View state-by-state: <%= state_select %></li>
 		<li><a href="#" onclick="return updateMap('count=100')">Show last 100 reports</a></li>
 		<li><a href="#" onclick="return updateMap('wait_time=90')">Show wait time > 90 minutes</a></li>
-		<li><a href="#" onclick="return updateMap('rating=30')">Show only bad ratings</a></li>
+		<li><a href="#" onclick="return updateMap('score=30')">Show only bad scores</a></li>
 	</ul>
 	</div>
 	
@@ -19,18 +19,18 @@
 		<div class="leftcolumn">
 			<ul class="nobullets">
 				<li><strong>Quality of experience:</strong></li>
-				<li><%= image_tag "rating_none.png" %> No rating given</li>		
-				<li><%= image_tag "rating_bad.png" %> Bad (0-30%)</li>
-				<li><%= image_tag "rating_medium.png" %> Medium (31-70%)</li>
-				<li><%= image_tag "rating_good.png" %> Good (71-100%)</li>		
+				<li><%= image_tag "score_none.png" %> No score given</li>		
+				<li><%= image_tag "score_bad.png" %> Bad (0-30%)</li>
+				<li><%= image_tag "score_medium.png" %> Medium (31-70%)</li>
+				<li><%= image_tag "score_good.png" %> Good (71-100%)</li>		
 			</ul>
 		</div>
 		<div class="rightcolumn">
 			<ul class="nobullets">
 				<li><strong>Wait time:</strong></li> 
-				<li><%= image_tag "rating_none.png", :style => "width: 10px; height: 10px;" %> 0-15 mins</li>
-				<li><%= image_tag "rating_none.png", :style => "width: 14px; height: 14px;" %> 16-60 mins</li>
-				<li><%= image_tag "rating_none.png", :style => "width: 18px; height: 18px;" %> 61+ mins</li>
+				<li><%= image_tag "score_none.png", :style => "width: 10px; height: 10px;" %> 0-15 mins</li>
+				<li><%= image_tag "score_none.png", :style => "width: 14px; height: 14px;" %> 16-60 mins</li>
+				<li><%= image_tag "score_none.png", :style => "width: 18px; height: 18px;" %> 61+ mins</li>
 			</ul>
 		</div>
 	</div>

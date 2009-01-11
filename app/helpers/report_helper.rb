@@ -73,17 +73,17 @@ module ReportHelper
     # assert_equal "San Francisco, CA, USA", @twitter_reporter.reports.create(:text => 'waiting in San Francisco at the poll in line forever').location.address
   end
   
-  def rating_icon(rating)
-    if(rating.nil?)
-      rating_icon = "rating_none.png"
-    elsif(rating <= 30)
-      rating_icon = "rating_bad.png"
-    elsif (rating <= 70)
-      rating_icon = "rating_medium.png"
+  def sccore_icon(score)
+    if(score.nil?)
+      score_icon = "score_none.png"
+    elsif(score <= 30)
+      score_icon = "score_bad.png"
+    elsif (score <= 70)
+      score_icon = "score_medium.png"
     else
-      rating_icon = "rating_good.png"
+      score_icon = "score_good.png"
     end    
-    "#{SERVER_URL}/images/#{rating_icon}"
+    "#{SERVER_URL}/images/#{score_icon}"
   end
   
   def bumpspark2( results )

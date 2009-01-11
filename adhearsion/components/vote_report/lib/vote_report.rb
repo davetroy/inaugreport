@@ -29,7 +29,7 @@ class VoteReport
 
     @report.zip = enter_zip
     @report.wait_time = enter_wait_time
-    @report.rating = enter_polling_location_rating
+    @report.score = enter_polling_location_score
     @report.text += get_problems
     record_audio_message
     
@@ -69,14 +69,14 @@ class VoteReport
     wait_time
   end
   
-  def enter_polling_location_rating
-    rating = nil
+  def enter_polling_location_score
+    score = nil
     confirm do
-      rating = confine(1..9) { get_digits(1, "rate-your-polling-place") }.to_i
+      score = confine(1..9) { get_digits(1, "rate-your-polling-place") }.to_i
       play 'you-entered'
-      call.say_digits rating
+      call.say_digits score
     end
-    rating ? (( (rating-1) / 8.0) * 100).to_i : nil
+    score ? (( (score-1) / 8.0) * 100).to_i : nil
   end
   
   def get_problems

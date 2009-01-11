@@ -29,7 +29,7 @@ class ReportsControllerTest < ActionController::TestCase
   def test_create_iphone_report
     post(:create, "reporter"=>{"profile_location"=>"Secaucus, NJ, United States", "name"=>"Oscarlpelaez@gmail.com", "latlon"=>"40.803,-74.057:1368", "uniqueid"=>"79103044a2ecc86761b01bd7f94686d6427d510c"},
                 "format"=>"iphone",
-                "report"=>{"rating"=>"100", "tag_string"=>"", "wait_time"=>"Less Than 5 Minutes", "text"=>""})
+                "report"=>{"score"=>"100", "tag_string"=>"", "wait_time"=>"Less Than 5 Minutes", "text"=>""})
     assert_response :success
     assert_equal "OK", @response.body
   end

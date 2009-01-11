@@ -19,7 +19,7 @@ class Report < ActiveRecord::Base
   after_create :check_uniqueid, :assign_filters, :auto_review
   
   named_scope :with_location, :conditions => 'location_id IS NOT NULL'
-  named_scope :with_rating, :conditions => 'rating IS NOT NULL'
+  named_scope :with_score, :conditions => 'score IS NOT NULL'
   named_scope :assigned, lambda { |user| 
     { :conditions => ['reviewer_id = ? AND reviewed_at IS NULL AND assigned_at > UTC_TIMESTAMP - INTERVAL 10 MINUTE', user.id],
       :order => 'created_at DESC' }
@@ -81,7 +81,7 @@ class Report < ActiveRecord::Base
     options[:only] = @@public_fields
     # options[:include] = [ :reporter ]
     # options[:except] = [ ]
-    options[:methods] = [ :audio_link, :display_text, :display_html, :rating, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) #lets us include current_items from feeds_controller#show
+    options[:methods] = [ :audio_link, :display_text, :display_html, :score, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) #lets us include current_items from feeds_controller#show
     # options[:additional] = {:page => options[:page] }
     ar_to_json(options)
   end    
@@ -98,8 +98,8 @@ class Report < ActiveRecord::Base
     if filters.include?(:dtend) && !filters[:dtend].blank?
       conditions[0] << "created_at <= :dtend"
     end
-    if filters.include?(:rating) && !filters[:rating].blank?
-      conditions[0] << "rating IS NOT NULL AND rating <= :rating"
+    if filters.include?(:score) && !filters[:score].blank?
+      conditions[0] << "score IS NOT NULL AND score <= :score"
     end
     if filters.include?(:q) && !filters[:q].blank?
       conditions[0] << "body LIKE :q"
@@ -126,7 +126,7 @@ class Report < ActiveRecord::Base
   # Subsititute text for reports that have none
   def display_text
     return self.body unless self.body.blank?
-    [rating        ? "rating #{rating}" : nil ].compact.join(', ')    
+    [score        ? "score #{score}" : nil ].compact.join(', ')    
   end
   
 
@@ -141,21 +141,21 @@ class Report < ActiveRecord::Base
     else
       html << %Q{<br /><img src="#{self.reporter.icon}" class="profile" />}
     end
-    # if(self.rating.nil?)
-    #   rating_icon = "/images/rating_none.png"
-    # elsif(self.rating <= 30)
-    #   rating_icon = "/images/rating_bad.png"
-    # elsif (self.rating <= 70)
-    #   rating_icon = "/images/rating_medium.png"
+    # if(self.score.nil?)
+    #   score_icon = "/images/score_none.png"
+    # elsif(self.score <= 30)
+    #   score_icon = "/images/score_bad.png"
+    # elsif (self.score <= 70)
+    #   score_icon = "/images/score_medium.png"
     # else
-    #   rating_icon = "/images/rating_good.png"
+    #   score_icon = "/images/score_good.png"
     # end
     # 
-    # html << %Q{<img class="rating_icon" style="clear:left;" src="#{rating_icon}" />}
+    # html << %Q{<img class="score_icon" style="clear:left;" src="#{score_icon}" />}
     html << %Q{<div class="balloon_body"><span class="author" id="screen_name">#{self.reporter.name}</span>: }
     linked_text = auto_link_urls(self.body, :target => '_new') { |linktext| truncate(linktext, 30) }
     html << %Q{<span class="entry-title">#{linked_text}</span><br />}
-    # html << [rating        ? "Rating: #{rating}" : nil ].compact.join('<br />')    
+    # html << [score        ? "score: #{score}" : nil ].compact.join('<br />')    
 
     html << "<br /><div class='whenwhere'>"
     if self.reporter.is_a?(TwitterReporter)
