@@ -87,7 +87,7 @@ class Report < ActiveRecord::Base
   end    
 
   def audio_link
-    "#{self.reporter.audio_path}/#{self.audio_file}" if self.is_a?(AudioReport)
+    "#{SERVER_URL}#{self.url}" if self.is_a?(AudioReport)
   end
   
   def self.find_with_filters(filters = {})
