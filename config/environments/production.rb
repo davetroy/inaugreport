@@ -20,5 +20,5 @@ config.action_controller.perform_caching             = true
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
 
-AUDIO_UPLOAD_PATH = "/home/votereport/audio"
+AUDIO_UPLOAD_PATH = "/home/inaugreport/files"
 GMAPS_API_KEY = "ABQIAAAAS-9BXlmhAxzk5tMQ6009tBQwB7FoWG9CpODCxt78lLSos1hDcBS1vOMMUWPlgylA8hA2CMqwKUC_wg"
