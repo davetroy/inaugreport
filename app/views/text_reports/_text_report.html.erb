@@ -1,3 +1,8 @@
 <hr>
+<% if report.reporter.class == TwitterReporter %>
+<%= link_to image_tag(report.reporter.icon, :class => "profile", :target=>"new"), report.reporter.profile %>
+<% else %>
+<img src="<%=report.reporter.icon%>" class="profile">
+<% end %>
 <%=text_report.body%><p/>
 via <%=text_report.reporter.source_name%><br/>
