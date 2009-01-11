@@ -4,6 +4,6 @@ class PhotoReport < Report
   end
   
   def url
-    "/photos/#{uniqueid}.#{reporter.audio_filetype}"
+    "/photos/#{uniqueid}.#{reporter.photo_filetype}"
   end
 end
