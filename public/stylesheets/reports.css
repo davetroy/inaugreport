@@ -16,6 +16,7 @@ a, a:visited {
 
 #reports {
 	text-align: left;
+	padding-left: 10px;
 }
 #syndication {
     float: right;
@@ -196,6 +197,7 @@ ul.controls li  {
 
 .digg_pagination {
 background: white;
+padding-bottom: 10px;
 /* self-clearing method: */ }
 
 .digg_pagination a, .digg_pagination span {

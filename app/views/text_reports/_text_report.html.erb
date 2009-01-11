@@ -1,3 +1,2 @@
-<hr>
-<%=text_report.body%><p/>
-via <%=text_report.reporter.source_name%><br/>
+<%= render :partial => "reports/report", :locals => {:report => text_report} %>
+

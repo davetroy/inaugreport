@@ -1,4 +1,3 @@
-<hr>
-<%=audio_report.body%><br/>
-<embed src='<%=audio_report.url%>' width='100' height='20' AUTOPLAY='false'/><br/>
-via <%=audio_report.reporter.source_name%><br/>
+<%= render :partial => "reports/report", :locals => {:report => audio_report, :media => "<embed src='#{audio_report.url}' width='100' height='20' AUTOPLAY='false'/><br/>"} %>
+
+<!-- via <%#audio_report.reporter.source_name%><br/> -->

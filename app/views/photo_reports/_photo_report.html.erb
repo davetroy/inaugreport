@@ -1,4 +1,1 @@
-<hr>
-<%=photo_report.title%><br/>
-<IMG SRC="<%=photo_report.url%>" width="20%"><br/>
-via <%=photo_report.reporter.source_name%><br/>
+<%= render :partial => "reports/report", :locals => {:report => photo_report, :media => "<img src='#{photo_report.url}' width='20%'>"} %>
