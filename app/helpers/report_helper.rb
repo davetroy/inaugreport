@@ -73,10 +73,6 @@ module ReportHelper
     # assert_equal "San Francisco, CA, USA", @twitter_reporter.reports.create(:text => 'waiting in San Francisco at the poll in line forever').location.address
   end
   
-  def audio_link(report)
-    "<embed src='#{report.reporter.audio_path}/#{report.audio_file}' width='100' height='20' AUTOPLAY='false'/>" if report.has_audio
-  end
-
   def rating_icon(rating)
     if(rating.nil?)
       rating_icon = "rating_none.png"

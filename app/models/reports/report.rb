@@ -81,14 +81,10 @@ class Report < ActiveRecord::Base
     options[:only] = @@public_fields
     # options[:include] = [ :reporter ]
     # options[:except] = [ ]
-    options[:methods] = [ :audio_link, :display_text, :display_html, :rating, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) #lets us include current_items from feeds_controller#show
+    options[:methods] = [ :display_text, :display_html, :rating, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) #lets us include current_items from feeds_controller#show
     # options[:additional] = {:page => options[:page] }
     ar_to_json(options)
   end    
-
-  def audio_link
-    "#{self.reporter.audio_path}/#{self.audio_file}" if self.has_audio
-  end
   
   def self.find_with_filters(filters = {})
     conditions = ["",filters]
