@@ -153,7 +153,7 @@ class Report < ActiveRecord::Base
     # 
     # html << %Q{<img class="score_icon" style="clear:left;" src="#{score_icon}" />}
     html << %Q{<div class="balloon_body"><span class="author" id="screen_name">#{self.reporter.name}</span>: }
-    linked_text = auto_link_urls(self.body, :target => '_new') { |linktext| truncate(linktext, 30) }
+    linked_text = auto_link_urls(self.body || "", :target => '_new') { |linktext| truncate(linktext, 30) }
     html << %Q{<span class="entry-title">#{linked_text}</span><br />}
     # html << [score        ? "score: #{score}" : nil ].compact.join('<br />')    
 
