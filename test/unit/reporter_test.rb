@@ -11,21 +11,6 @@ class ReporterTest < ActiveSupport::TestCase
     assert_equal 1, reporter.reports.size
     assert_equal "Boulder, CO 80303, USA", report.location.address
   end
-  
-  def test_iphone_reporter_creation
-    reporter = IphoneReporter.create(:uniqueid => '00000000-0000-1000-8000-0017F20429CC', :name => "Fred J", :latlon => '39.024,-76.511:2192')
-    assert_match /Arnold/, reporter.profile_location
-    assert_nil reporter.followers_count
-    assert_equal "VoteReport iPhone App", reporter.source_name
-    report = reporter.reports.create(:text => 'all is well in l:New York', :rating => '62', :tag_string => '#machine #registration', :latlon => '39.024,-76.511:2192',
-                                      :polling_place => PollingPlace.create(:name => 'Elem School') )
-    assert_equal 1, reporter.reports.size
-    assert_equal "New York, NY, USA", report.location.address
-    assert_equal 62, report.rating
-    assert_equal 2, report.tags.size
-    assert_equal 2192, report.location_accuracy.to_i
-    assert report.uniqueid.ends_with?(report.id)
-  end
 
   def test_android_reporter_creation
     reporter = AndroidReporter.create(:uniqueid => '8282737364648989', :name => "Bob Android", :latlon => '43.024,-76.411:1400')

@@ -4,7 +4,8 @@ class AndroidReporter < Reporter
     
   def source_name; "#{APP_NAME} Android App"; end
   def icon; "/images/iphone_icon.png"; end
-  def audio_filetype; "gsm"; end
+  def audio_filetype; "mp3"; end
+  def photo_filetype; "jpg"; end
   
   private
   def set_location

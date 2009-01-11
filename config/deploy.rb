@@ -1,18 +1,18 @@
 # Use Git for deployment - git-specific options
 default_run_options[:pty] = true
 set :scm, "git"
-set :repository,  "git@github.com:davetroy/votereport.git"
+set :repository,  "git@github.com:davetroy/inaugreport.git"
 set :branch, "master"
 set :deploy_via, :remote_cache
 set :git_shallow_clone, 1
 
-set :application, "votereport"
+set :application, "inaugreport"
 set :keep_releases, 3
 
-role :app, "votereport.us"
-role :daemons, "votereport.us"
+role :app, "74.63.11.138"
+role :daemons, "74.63.11.138"
 #role :voip, "voip.votereport.us"
-role :db, "votereport.us", :primary=>true
+role :db, "74.63.11.138", :primary=>true
 
 set :use_sudo, false
 set :user, application

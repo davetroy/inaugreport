@@ -208,12 +208,15 @@ class ReportsController < ApplicationController
   # Store an iPhone-generated report given a hash of parameters
   def save_iphone_report(info)
     reporter = IphoneReporter.update_or_create(info[:reporter])
-    report = reporter.reports.create(info[:report].merge(:latlon => info[:reporter][:latlon]))
-    if audiofile = params[:uploaded]
-      fn = "#{AUDIO_UPLOAD_PATH}/#{report.uniqueid}.caf"
-      File.open(fn, 'w') { |f| f.write audiofile.read }
-      logger.info "*** iPhone Audio Report: #{fn}"
-      report.update_attribute(:has_audio, true)
+    if info[:soundfile]
+      report = reporter.audio_reports.create(info[:report])
+    elsif info[:imagefile]
+      report = reporter.photo_reports.create(info[:report])
+    else
+      report = reporter.text_reports.create(info[:report])
+    end
+    if uploadedfile = params[:uploaded]
+      File.open(report.filename, 'w') { |f| f.write uploadedfile.read }
     end
     "OK"
   rescue => e

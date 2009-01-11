@@ -92,7 +92,8 @@ class InitialSchema < ActiveRecord::Migration
       t.column "reporter_id", :integer
       t.column "location_id", :integer
       t.column "uniqueid", :string, :limit => 20
-      t.column "text", :string
+      t.column "title", :string
+      t.column "body", :string
       t.column "score", :integer
       t.column "parent_report_id", :integer
       t.column "filetype", :string, :limit => 5
