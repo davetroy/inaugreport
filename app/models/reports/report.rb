@@ -81,10 +81,14 @@ class Report < ActiveRecord::Base
     options[:only] = @@public_fields
     # options[:include] = [ :reporter ]
     # options[:except] = [ ]
-    options[:methods] = [ :display_text, :display_html, :rating, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) #lets us include current_items from feeds_controller#show
+    options[:methods] = [ :audio_link, :display_text, :display_html, :rating, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) #lets us include current_items from feeds_controller#show
     # options[:additional] = {:page => options[:page] }
     ar_to_json(options)
   end    
+
+  def audio_link
+    "#{self.reporter.audio_path}/#{self.audio_file}" if self.is_a?(AudioReport)
+  end
   
   def self.find_with_filters(filters = {})
     conditions = ["",filters]
@@ -137,24 +141,24 @@ class Report < ActiveRecord::Base
     else
       html << %Q{<br /><img src="#{self.reporter.icon}" class="profile" />}
     end
-    if(self.rating.nil?)
-      rating_icon = "/images/rating_none.png"
-    elsif(self.rating <= 30)
-      rating_icon = "/images/rating_bad.png"
-    elsif (self.rating <= 70)
-      rating_icon = "/images/rating_medium.png"
-    else
-      rating_icon = "/images/rating_good.png"
-    end
-    
-    html << %Q{<img class="rating_icon" style="clear:left;" src="#{rating_icon}" />}
+    # if(self.rating.nil?)
+    #   rating_icon = "/images/rating_none.png"
+    # elsif(self.rating <= 30)
+    #   rating_icon = "/images/rating_bad.png"
+    # elsif (self.rating <= 70)
+    #   rating_icon = "/images/rating_medium.png"
+    # else
+    #   rating_icon = "/images/rating_good.png"
+    # end
+    # 
+    # html << %Q{<img class="rating_icon" style="clear:left;" src="#{rating_icon}" />}
     html << %Q{<div class="balloon_body"><span class="author" id="screen_name">#{self.reporter.name}</span>: }
     linked_text = auto_link_urls(self.body, :target => '_new') { |linktext| truncate(linktext, 30) }
     html << %Q{<span class="entry-title">#{linked_text}</span><br />}
-    html << [rating        ? "Rating: #{rating}" : nil ].compact.join('<br />')    
+    # html << [rating        ? "Rating: #{rating}" : nil ].compact.join('<br />')    
 
     html << "<br /><div class='whenwhere'>"
-    if self.reporter.class == TwitterReporter
+    if self.reporter.is_a?(TwitterReporter)
       html << %Q{reported <a href="http://twitter.com/#{self.reporter.screen_name}/statuses/#{self.uniqueid}">#{ time_ago_in_words(self.created_at)} ago</a> }
     else
       html << "reported #{time_ago_in_words(self.created_at)} ago"
@@ -179,7 +183,9 @@ class Report < ActiveRecord::Base
   
   # Detect and geocode any location information present in the report text
   def detect_location
-    if self.latlon
+    if !self.location.nil?
+      # we already have a geocoded location, so move along
+    elsif self.respond_to?(:latlon) && self.latlon
       latlon, self.location_accuracy = self.latlon.split(/:/)
       self.location = Location.geocode(latlon)
     elsif self.body
