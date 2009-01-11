@@ -1,6 +1,6 @@
 ENV["RAILS_ENV"] ||= defined?(Daemons) ? 'production' : 'development'
 
-# FIXME: pull in the platform.yml for the tag
+# FIXME: pull in the platform.yml for the tag(s)
 FEED = "http://twittervision.com/inaugreport.json"
 EXTRACTOR = Regexp.new(/^(\w+?):\s(.*)$/m)
 
@@ -23,7 +23,7 @@ while($running) do
     next unless reporter = TwitterReporter.update_or_create(user_info)
 
     screen_name, text = entry['title'].match(EXTRACTOR).captures
-    reporter.reports.create(:text => text,
+    reporter.text_reports.create(:body => text,
                         :uniqueid => entry['status_id'],
                         :created_at => entry['published'])
   end

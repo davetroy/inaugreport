@@ -183,7 +183,7 @@ class Report < ActiveRecord::Base
   
   # Detect and geocode any location information present in the report text
   def detect_location
-    if self.respond_to?(:latlon)
+    if self.latlon
       latlon, self.location_accuracy = self.latlon.split(/:/)
       self.location = Location.geocode(latlon)
     elsif self.body
