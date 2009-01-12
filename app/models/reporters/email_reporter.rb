@@ -2,6 +2,7 @@ class EmailReporter < Reporter
   before_create :initialize_location
 
   def source_name; "Email"; end
+  def source; "Email"; end
   def icon; "/images/email_icon.jpg"; end
   def name; screen_name || "Email User"; end
   

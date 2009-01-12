@@ -14,7 +14,7 @@ class Report < ActiveRecord::Base
   has_many :report_filters, :dependent => :destroy
   has_many :filters, :through => :report_filters
 
-  before_create :detect_location
+  before_create :detect_location, :set_source
   # check_uniqueid must be AFTER create because otherwise it doesn't have an ID
   after_create :check_uniqueid, :assign_filters, :auto_review
   
@@ -184,6 +184,11 @@ class Report < ActiveRecord::Base
   # Populate a uniqueid if not supplied by the reporting mechanism
   def check_uniqueid
     update_attribute(:uniqueid, "#{Time.now.to_i}.#{self.id}") if self.uniqueid.nil?
+    true
+  end
+  
+  def set_source
+    self.source=reporter.source
     true
   end
   

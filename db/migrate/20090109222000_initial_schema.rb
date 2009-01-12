@@ -73,14 +73,15 @@ class InitialSchema < ActiveRecord::Migration
     add_index "report_tags", ["tag_id"], :name => "index_report_tags_on_tag_id"
 
     create_table "reporters", :force => true do |t|
-      t.column "location_id", :integer
       t.column "type", :string, :limit => 30
       t.column "uniqueid", :string, :limit => 80
       t.column "name", :string, :limit => 80
       t.column "screen_name", :string, :limit => 80
-      t.column "profile_location", :string, :limit => 80
       t.column "profile_image_url", :string, :limit => 200
       t.column "followers_count", :integer
+      t.column "profile_location", :string, :limit => 80
+      t.column "location_id", :integer
+      t.column "home_location_id", :integer
       t.column "created_at", :datetime
       t.column "updated_at", :datetime
     end
@@ -89,15 +90,17 @@ class InitialSchema < ActiveRecord::Migration
 
     create_table "reports", :force => true do |t|
       t.column "type", :string, :limit => 30
+      t.column "source", :string, :limit => 30
+      t.column "uniqueid", :string, :limit => 30
+      t.column "title", :string
+      t.column "body", :string, :limit => 65536
+      t.column "score", :integer
+      t.column "source_url", :string
+      t.column "link_url", :string
+      t.column "location_accuracy", :integer
       t.column "reporter_id", :integer
       t.column "location_id", :integer
-      t.column "uniqueid", :string, :limit => 20
-      t.column "title", :string
-      t.column "body", :string
-      t.column "score", :integer
       t.column "parent_report_id", :integer
-      t.column "filetype", :string, :limit => 5
-      t.column "location_accuracy", :integer
       t.column "reviewer_id", :integer
       t.column "created_at", :datetime
       t.column "updated_at", :datetime

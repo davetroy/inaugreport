@@ -3,6 +3,7 @@ class TwitterReporter < Reporter
   EXTRACTOR = Regexp.new(/^(\w+?):\s(.*)$/m)
 
   def source_name; "Twitter"; end
+  def source; "Twitter"; end
   def icon; profile_image_url; end
   
   def profile

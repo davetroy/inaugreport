@@ -35,10 +35,15 @@ class FlickrPoller
       pi = photos_getInfo(:photo_id => id)
       next unless fp = pi['photo']
       owner = fp['owner']
-      u = FlickrReporter.update_or_create('uniqueid' => owner['nsid'], 'name' => owner['realname'], 'screen_name' => owner['username'], 'profile_location' => owner['location'])
+      u = FlickrReporter.update_or_create('uniqueid' => owner['nsid'],
+                                          'name' => owner['realname'],
+                                          'screen_name' => owner['username'],
+                                          'profile_location' => owner['location'])
       attrs = { :uniqueid => fp['id'],
                 :title => fp['title']['_content'],
                 :body => fp['description']['_content'],
+                :source_url => "http://farm#{fp['farm']}.static.flickr.com/#{fp['server']}/#{fp['id']}_#{fp['secret']}_m.jpg",
+                :link_url => fp['urls']['url'][0]['_content'],
                 :updated_at => Time.now,
                 :created_at => fp['dates']['taken'] }
       if loc = fp['location']

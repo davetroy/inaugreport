@@ -2,6 +2,7 @@ class PhoneReporter < Reporter
   before_create :initialize_location
   
   def source_name; "Telephone"; end
+  def source; "Phone"; end
   def icon; "/images/phone_icon.jpg"; end
   def audio_path; PLATFORM_CONFIG["audio_path"]; end
   def name; screen_name || "Telephone User"; end
