@@ -73,6 +73,18 @@ module ReportHelper
     # assert_equal "San Francisco, CA, USA", @twitter_reporter.reports.create(:text => 'waiting in San Francisco at the poll in line forever').location.address
   end
   
+  
+  def media_link(report)
+    case report.class
+    when AudioReport
+      "<embed src='#{report.url}' width='100' height='20' AUTOPLAY='false'/>"
+    when PhotoReport
+      "<img src='#{report.url}' width='20%'>"
+    else
+      ""
+    end
+  end
+  
   def score_icon(score)
     if(score.nil?)
       score_icon = "score_none.png"
