@@ -3,7 +3,7 @@ class Report < ActiveRecord::Base
   validates_presence_of :reporter_id
   validates_uniqueness_of :uniqueid, :scope => :type, :allow_blank => true, :message => 'already processed'
   
-  attr_accessor :latlon   # virtual field supplied by iphone/android
+  attr_accessor :latlon
   
   belongs_to :location
   belongs_to :reporter
@@ -189,19 +189,16 @@ class Report < ActiveRecord::Base
   
   # Detect and geocode any location information present in the report text
   def detect_location
-    if !self.location.nil?
-      # we already have a geocoded location, so move along
-    elsif self.respond_to?(:latlon) && self.latlon
+    return true if self.location_id
+    if self.latlon
       latlon, self.location_accuracy = self.latlon.split(/:/)
       self.location = Location.geocode(latlon)
     elsif self.body
       LOCATION_PATTERNS.find { |p| self.body[p] }
       self.location = Location.geocode($1) if $1
     end
-    if self.location
-      self.reporter.location = self.location 
-      # self.reporter.home_location = self.location if self.reporter.home_location.blank?
-    end
+    self.reporter.location = self.location if self.location
+    # self.reporter.home_location = self.location if self.location && self.reporter.home_location.nil?
     true
   end
     

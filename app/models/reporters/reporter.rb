@@ -27,7 +27,6 @@ class Reporter < ActiveRecord::Base
   # Takes a hash of reporter data
   # Adds to database if it's new to us, otherwise finds record and returns it
   def self.update_or_create(fields)
-    #fields = fields.delete_if { |k,v| !instance_methods.include?("#{k}=") }
     if reporter = find_by_uniqueid(fields['uniqueid'])
       reporter.update_attributes(fields)
     else
