@@ -2,6 +2,8 @@ class TwitterReporter < Reporter
   before_save :set_location
   EXTRACTOR = Regexp.new(/^(\w+?):\s(.*)$/m)
 
+  attr_accessor :url, :description, :protected
+  
   def source_name; "Twitter"; end
   def source; "Twitter"; end
   def icon; profile_image_url; end
