@@ -13,7 +13,7 @@ xml.kml("xmlns" => "http://earth.google.com/kml/2.2",
     @reports.each do |report| # render :partial => @reports - doesn't work in builder?
       xml.tag! "Placemark", :id => "#{APP_TAG}:report:#{report.id}" do
         xml.name report.reporter.name if report.reporter.name
-        xml.description "#{h(report.text)} in #{h(report.location.address)}"
+        xml.description "#{h(report.body)} in #{h(report.location.address)}"
         xml.tag! "Style" do
           xml.tag! "IconStyle" do
             xml.tag! "Icon" do
@@ -34,14 +34,14 @@ xml.kml("xmlns" => "http://earth.google.com/kml/2.2",
    end }
   <span class="vcard author" id="screen_name">#{report.reporter.name}</span>: <span class="entry-title">#{report.display_text}</span> 
   <span class="whenwhere">
-  #{ if report.reporter.class == TwitterReporter 
-    link_to(time_ago_in_words(report.created_at) + " ago", "http://twitter.com/" + report.reporter.screen_name + "/statuses/" + report.uniqueid)
+  #{ if report.reporter.class == TwitterReporter
+    link_to(time_ago_in_words(report.created_at) + " ago", "http://twitter.com/" + (report.reporter.screen_name || "") + "/statuses/" + report.uniqueid || "")
    else
     '<abbr class="published" title="#{ report.created_at.iso8601 }">#{time_ago_in_words(report.created_at)}</abbr> ago'
    end }    
     #{"in <span class=\"adr\">#{report.location.address}</span>" if report.location}
     via #{report.reporter.source_name}<br/>
-    #{audio_link(report) if report.has_audio}
+    #{media_link(report) if report.is_a?(AudioReport)}
   </span>
 </div>}
               # balloonText = "$[description] by $[screen_name]"
@@ -56,7 +56,7 @@ xml.kml("xmlns" => "http://earth.google.com/kml/2.2",
         end unless report.reporter.nil?
         xml.atom( :link, :href => report_url(:id => report, :only_path => false ), :rel => "alternate", :type => "text/html")
         xml.tag! "ExtendedData" do
-          %w{wait_time score}.each do |attribute|
+          %w{score}.each do |attribute|
             xml.tag! "Data", :name => attribute do
               xml.value report.send(attribute) 
             end

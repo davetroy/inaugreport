@@ -73,7 +73,7 @@ module ReportHelper
     # assert_equal "San Francisco, CA, USA", @twitter_reporter.reports.create(:text => 'waiting in San Francisco at the poll in line forever').location.address
   end
   
-  def sccore_icon(score)
+  def score_icon(score)
     if(score.nil?)
       score_icon = "score_none.png"
     elsif(score <= 30)

@@ -102,10 +102,15 @@ class Report < ActiveRecord::Base
     if filters.include?(:score) && !filters[:score].blank?
       conditions[0] << "score IS NOT NULL AND score <= :score"
     end
+    if filters.include?(:type) && !filters[:type].blank?
+      filters[:type] = "#{filters[:type].capitalize}Report"
+      conditions[0] << "type = :type"
+    end
     if filters.include?(:q) && !filters[:q].blank?
       conditions[0] << "body LIKE :q"
       filters[:q] = "%#{filters[:q]}%"
     end
+    logger.debug("FIlteR! #{filters.to_yaml}")
     
     if filters.include?(:state) && !filters[:state].blank?
       filtered = Filter.find_by_name(US_STATES[filters[:state]])

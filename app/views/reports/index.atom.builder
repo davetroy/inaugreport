@@ -23,13 +23,13 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom",
       xml.id      url_for(:only_path => false, :controller => :reports, :action => :show, :id => report.id)
       xml.updated report.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ") unless report.updated_at.nil?
       xml.author  { xml.name report.reporter.name }
-      xml.summary report.text unless report.text.nil?
-      %w{wait_time score source}.each do |attribute|
-        xml.tag! "category", :term => "{attribute} = #{report.send(attribute)}"
+      xml.summary report.body unless report.body.nil?
+      %w{score type}.each do |attribute|
+        xml.tag! "category", :term => "#{attribute}=#{report.send(attribute.to_sym)}"
       end
       xml << report.location.point.as_georss unless report.location.nil?
       xml.content :type => "html" do
-        xml.text! CGI::unescapeHTML("#{report.reporter.screen_name}: " + report.text) unless report.text.blank?
+        xml.text! CGI::unescapeHTML("#{report.reporter.screen_name}: #{report.body}") unless report.body.blank?
       end 
     end
   end
