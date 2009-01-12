@@ -14,7 +14,7 @@
     </style>
 <div id="message" style="display:none"></div>
 
-<%= render :partial => 'legend' if !params[:clean]%>
+<%= render :partial => 'legend', :locals => {:reports => @reports} if !params[:clean]%>
 
 <script type="text/javascript" charset="utf-8">
 

@@ -103,7 +103,7 @@ class Report < ActiveRecord::Base
       conditions[0] << "score IS NOT NULL AND score <= :score"
     end
     if filters.include?(:type) && !filters[:type].blank?
-      filters[:type] = "#{filters[:type].capitalize}Report"
+      filters[:type] = "#{filters[:type].capitalize}Report" unless filters[:type].match(/Report/)
       conditions[0] << "type = :type"
     end
     if filters.include?(:q) && !filters[:q].blank?
