@@ -79,7 +79,7 @@ module ReportHelper
     when AudioReport
       "<embed src='#{report.url}' width='100' height='20' AUTOPLAY='false'/>"
     when PhotoReport
-      "<img src='#{report.url}' width='20%'>"
+      "<img src='#{report.url}' width='180'>"
     else
       ""
     end

@@ -14,7 +14,8 @@ class Report < ActiveRecord::Base
   has_many :report_filters, :dependent => :destroy
   has_many :filters, :through => :report_filters
 
-  before_create :detect_location, :set_source
+  before_validation :set_source
+  before_create :detect_location
   # check_uniqueid must be AFTER create because otherwise it doesn't have an ID
   after_create :check_uniqueid, :assign_filters, :auto_review
   
