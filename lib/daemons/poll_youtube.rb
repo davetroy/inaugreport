@@ -28,5 +28,5 @@ class YoutubePoller
   
 end
 
-YoutubePoller.new("inaug09")
+YoutubePoller.new("inaug09|dctrip09|inaugurationreport")
 
