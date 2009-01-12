@@ -14,7 +14,7 @@ function initMap(map_filters){
     mapstraction.addControls({zoom: 'small'});
     mapstraction.addOverlay("/reports.kml?live=1&"+ filters);
     last_updated = new Date().toISO8601String();
-    $("#last_updated").text(last_updated);
+    jQuery("#last_updated").text(last_updated);
     setInterval("updateMap();",60000);
 
 }
@@ -58,8 +58,8 @@ function initMapJS(map_filters){
     mapstraction = new Mapstraction('map','google');
     filters = map_filters;
 
-    $("#filter_state").change(function () { 
-        state = $("#filter_state").val();
+    jQuery("#filter_state").change(function () { 
+        state = jQuery("#filter_state").val();
         updateState(state);
     });
     // display the map centered on a latitude and longitude (Google zoom levels)
@@ -69,8 +69,9 @@ function initMapJS(map_filters){
 
     fadeMap();
     last_updated = new Date().toISO8601String();
-    $("#last_updated").text(last_updated);
-    // setInterval("updateMap();",60000);
+    jQuery("#last_updated").text(last_updated);
+    updateMap();
+    setInterval("updateMap();",60000);
 
 }
 var current_page = 1;
@@ -79,8 +80,8 @@ function updateState(state, page) {
     if(page == null)
         page = 1;
     else {
-        $("#page_" + current_page).removeClass("current");
-        $("#page_" + page).addClass("current");        
+        jQuery("#page_" + current_page).removeClass("current");
+        jQuery("#page_" + page).addClass("current");        
     }
 
     hideMessage();
@@ -90,7 +91,7 @@ function updateState(state, page) {
     gmarkers = [];
     filters = current_filter = "state=" + state;
         
-    $("#update_status").show();
+    jQuery("#update_status").show();
     if(state == null)
         $.getJSON("/feeds/" + page +".json", "");    
     else
@@ -110,17 +111,17 @@ function updateMap(map_filter) {
         current_filter = "dtstart="+last_updated+"&" + filters;
     }
         
-    $("#update_status").show();
-    $.getJSON("/reports.json?"+current_filter+"&page=1&count=200&callback=updateJSON", "");
+    jQuery("#update_status").show();
+    jQuery.getJSON("/reports.json?"+current_filter+"&page=1&count=200&callback=updateJSON", "");
     return false;
 }
 function showMessage(message) {
-    $("#message").text(message);
-    $("#message").show();
+    jQuery("#message").text(message);
+    jQuery("#message").show();
 }
 function hideMessage(message) {
-    $("#message").text("");
-    $("#message").hide();
+    jQuery("#message").text("");
+    jQuery("#message").hide();
 }
 function updateJSON(response) {
     var num_markers = mapstraction.addJSON(response);
@@ -130,8 +131,8 @@ function updateJSON(response) {
         mapstraction.autoCenterAndZoom();
     
     last_updated = new Date().toISO8601String();
-    $("#last_updated").text(last_updated);    
-    $("#update_status").hide();
+    jQuery("#last_updated").text(last_updated);    
+    jQuery("#update_status").hide();
 }
 
 var gmarkers = []

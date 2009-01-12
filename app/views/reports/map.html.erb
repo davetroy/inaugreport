@@ -17,8 +17,8 @@
 <%= render :partial => 'legend', :locals => {:reports => @reports} if !params[:clean]%>
 
 <script type="text/javascript" charset="utf-8">
-
-		$(document).ready(function() {
+		jQuery.noConflict();
+		jQuery(document).ready(function() {
 			initMapJS();
 			filters = "<%= @filters.collect{|k,v| "#{k}=#{v}"}.join("&") %>";
 			state = "<%= @filters[:state] || '' %>";
