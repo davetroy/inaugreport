@@ -75,13 +75,13 @@ module ReportHelper
   
   
   def media_link(report)
-    case report.class
-    when AudioReport
-      "<embed src='#{report.url}' width='100' height='20' AUTOPLAY='false'/>"
-    when PhotoReport
-      "<img src='#{report.url}' width='180'>"
+    case report.class.name
+    when /AudioReport/
+      return "<embed src='#{report.url}' width='100' height='20' AUTOPLAY='false'/>"
+    when /PhotoReport/
+      return "<img src='#{report.url}' width='180'>"
     else
-      ""
+      return ""
     end
   end
   
