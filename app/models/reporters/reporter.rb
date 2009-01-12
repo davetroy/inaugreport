@@ -5,6 +5,7 @@ class Reporter < ActiveRecord::Base
   has_many :text_reports, :dependent => :destroy
   
   belongs_to :location
+  belongs_to :home_location, :class_name => "Location"
 
   validates_presence_of :uniqueid
   validates_uniqueness_of :uniqueid, :scope => :type, :allow_blank => false
