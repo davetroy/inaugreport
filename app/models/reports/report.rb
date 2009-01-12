@@ -205,7 +205,8 @@ class Report < ActiveRecord::Base
     end
     if self.location
       self.reporter.location = self.location 
-      # self.reporter.home_location ||= self.location
+      self.reporter.home_location ||= self.location
+      self.reporter.save
     end
     true
   end
