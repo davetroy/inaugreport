@@ -4,6 +4,8 @@ class PhotoReport < Report
   end
   
   def url
+    # if reporter.is_a?(FlickrReporter)
+    #   ""
     "/photos/#{uniqueid}.#{reporter.photo_filetype}"
   end
 end
