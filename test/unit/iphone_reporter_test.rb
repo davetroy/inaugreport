@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class IphoneReporterTest < ActiveSupport::TestCase
   def test_iphone_reporter_creation
-    reporter = IphoneReporter.create("uniqueid"=>"E8F8D731-648C-5A07-81D8-5C4BA6CDFE45", "zipcode"=>"20171", "firstname"=>"Sze", "lastname"=>"Wong", "email"=>"swong@zerionconsulting.com")
+    reporter = IphoneReporter.update_or_create("uniqueid"=>"E8F8D731-648C-5A07-81D8-5C4BA6CDFE45", "zipcode"=>"20171", "firstname"=>"Sze", "lastname"=>"Wong", "email"=>"swong@zerionconsulting.com")
     assert_equal '20171', reporter.profile_location
     assert_nil reporter.followers_count
     assert_equal "Sze Wong", reporter.name

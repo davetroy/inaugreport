@@ -12,6 +12,7 @@
 	<% end %>  	
     <%="in <span class=\"adr\">#{report.location.address}</span>" if report.location%>
     via <%=report.reporter.source_name%><br/>
+	<%= defined?(media) ? media : "" %>
     <%#audio_link(report)%>
   </span>
 </div>
