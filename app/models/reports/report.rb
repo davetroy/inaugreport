@@ -1,7 +1,7 @@
 class Report < ActiveRecord::Base
 	
   validates_presence_of :reporter_id
-  validates_uniqueness_of :uniqueid, :scope => :type, :allow_blank => true, :message => 'already processed'
+  validates_uniqueness_of :uniqueid, :scope => [:type, :source], :allow_blank => true, :message => 'already processed'
   
   attr_accessor :latlon
   
