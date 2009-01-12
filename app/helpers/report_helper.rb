@@ -73,13 +73,12 @@ module ReportHelper
     # assert_equal "San Francisco, CA, USA", @twitter_reporter.reports.create(:text => 'waiting in San Francisco at the poll in line forever').location.address
   end
   
-  
   def media_link(report)
     case report.class.name
     when /AudioReport/
       return "<embed src='#{report.url}' width='100' height='20' AUTOPLAY='false'/>"
     when /PhotoReport/
-      return "<img src='#{report.url}' width='180'>"
+      return "<img src='#{report.url}' width='180'/>"
     else
       return ""
     end
