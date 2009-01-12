@@ -204,11 +204,7 @@ class Report < ActiveRecord::Base
       LOCATION_PATTERNS.find { |p| self.body[p] }
       self.location = Location.geocode($1) if $1
     end
-    if self.location
-      self.reporter.location = self.location 
-      self.reporter.home_location ||= self.location
-      self.reporter.save
-    end
+    self.reporter.update_attributes(:location_id => self.location_id) if self.location
     true
   end
     

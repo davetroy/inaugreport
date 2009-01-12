@@ -33,6 +33,6 @@ class ReportsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal "OK", @response.body
     reporter = IphoneReporter.find_by_uniqueid("13506d733bc5372a3b818fdf29ef8fb7386b3dc3")
-    p reporter
+    assert_equal "David Troy", reporter.name
   end
 end

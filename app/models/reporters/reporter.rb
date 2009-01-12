@@ -5,10 +5,12 @@ class Reporter < ActiveRecord::Base
   has_many :text_reports, :dependent => :destroy
   
   belongs_to :location
+  belongs_to :home_location, :class_name => "Location"
 
   validates_presence_of :uniqueid
   validates_uniqueness_of :uniqueid, :scope => :type, :allow_blank => false
-    
+  before_save :check_home_location
+  
   cattr_accessor :public_fields
   @@public_fields = [:name]
  
@@ -21,7 +23,6 @@ class Reporter < ActiveRecord::Base
     options[:additional] = {:page => options[:page] }
     # ar_to_json(options)
     (options[:only] + options[:methods]).inject(options[:additional]) {|result,field| result[field] = self.send(field); result }.to_json
-    
   end  
 
   # Takes a hash of reporter data
@@ -33,5 +34,10 @@ class Reporter < ActiveRecord::Base
       reporter = create(fields)
     end
     reporter
+  end
+  
+  private
+  def check_home_location
+    self.home_location ||= self.location if self.location
   end
 end
