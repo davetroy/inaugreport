@@ -41,7 +41,7 @@ xml.kml("xmlns" => "http://earth.google.com/kml/2.2",
    end }    
     #{"in <span class=\"adr\">#{report.location.address}</span>" if report.location}
     via #{report.reporter.source_name}<br/>
-    #{media_link(report) if report.is_a?(AudioReport)}
+    #{media_link(report)}
   </span>
 </div>}
               # balloonText = "$[description] by $[screen_name]"
