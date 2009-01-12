@@ -18,9 +18,12 @@ class IphoneReporter < Reporter
   
   private
   def map_fields
-    self.name = "#{self.firstname} #{self.lastname}"
-    self.profile_location = self.zipcode
-    self.screen_name = self.email
+    if (self.firstname && self.lastname)
+      self.name = "#{self.firstname} #{self.lastname}"
+      self.profile_location = self.zipcode
+      self.screen_name = self.email
+    end
+    true
   end
     
 end
