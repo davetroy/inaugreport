@@ -23,7 +23,6 @@ class Reporter < ActiveRecord::Base
     options[:additional] = {:page => options[:page] }
     # ar_to_json(options)
     (options[:only] + options[:methods]).inject(options[:additional]) {|result,field| result[field] = self.send(field); result }.to_json
-    
   end  
 
   # Takes a hash of reporter data

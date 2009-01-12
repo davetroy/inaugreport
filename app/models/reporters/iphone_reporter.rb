@@ -12,6 +12,8 @@ class IphoneReporter < Reporter
   def audio_filetype; "caf"; end
   def photo_filetype; "jpg"; end
 
+  def display_name; name; end
+
   def photo_urlformat(uniqueid)
     "/photos/#{uniqueid}.#{photo_filetype}"
   end
