@@ -1,6 +1,6 @@
 ENV["RAILS_ENV"] ||= defined?(Daemons) ? 'production' : 'development'
 
-FEED = 'http://www.mozes.com/_/rss?keyword_id=1031894'
+FEED = 'http://www.mozes.com/_/rss?keyword_id=1033995'
 STAMPFILE = '/tmp/poll_mozes_tstamp'
 
 require File.dirname(__FILE__) + "/../../config/environment"
