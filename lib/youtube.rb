@@ -7,9 +7,8 @@ module Youtube
     pstring = params.map { |k,v| "#{k}=#{URI.encode(v)}" }.join('&')
     url = "http://gdata.youtube.com/feeds/api/videos?#{pstring}"
     doc = get_and_parse_xml_safely(url)
-    p url
-    p doc
     return false unless doc && doc['feed'] && doc['feed']['entry'] && doc['feed']['entry'].any?
+    doc
   end
   
   

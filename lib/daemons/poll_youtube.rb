@@ -21,7 +21,15 @@ class YoutubePoller
 
   def poll
     while (@running) do
-      p find_tag(@tags)
+      doc = find_tag(@tags)
+      doc['feed']['entry'].each do |e|
+        begin
+          next unless e && e['id'] && e.is_a?(Hash) 
+          p e['id']
+        rescue
+          next
+        end
+      end
       sleep POLL_INTERVAL
     end
   end
