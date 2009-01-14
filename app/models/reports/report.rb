@@ -19,6 +19,7 @@ class Report < ActiveRecord::Base
   before_create :detect_location
   # check_uniqueid must be AFTER create because otherwise it doesn't have an ID
   after_create :check_uniqueid, :assign_filters, :auto_review
+  before_save { self.location_id = self.reporter.location_id if self.location_id.nil? }
   
   named_scope :with_location, :conditions => 'location_id IS NOT NULL'
   named_scope :with_score, :conditions => 'score IS NOT NULL'
