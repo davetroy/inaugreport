@@ -13,18 +13,13 @@
 
 </head>
 <body>
-    <div id='header'>
+    <a href="/"><div id='header'>
       <div class='header'>
         <div id='logo'>
-          <a href="/"><%= APP_NAME %></a>
-			<ul id="syndication" style="display:none">
-				<li id="kml_link"><%= link_to "GoogleEarth"+image_tag("kml_icon.png", :alt => "KML")+"view", formatted_reports_url(:kml), :title => "Download the KML to view in GoogleEarth" %></li>
-				<li id="rss_link"><%= link_to "RSS"+image_tag("feed_icon.png", :alt => "RSS")+"subscribe", formatted_reports_url(:atom), :title => "Subscribe to ##{APP_TAG} GeoRSS-Atom feed" %></li>
-			</ul>
-
+          <%= APP_NAME %>
         </div>
       </div>
-    </div>
+    </div></a>
 
 <p style="color: green"><%= flash[:notice] %></p>
 
@@ -33,7 +28,7 @@
         <div class='c_main a_index' id='page'>
           <div class='page'>
             <div id='maker_map'>
-				<%= yield  %>
+              <%= yield  %>
               <div class='loading' style="display:none"></div>
             </div>
           </div>
@@ -47,19 +42,19 @@
                 <a href="#" class="expand expand_welcome">more &raquo;</a>
               </div>
               <div class='long' style='display:none'>
-                <p>Be a part of the Inauguration in a brand new way. Explore realtime reports from around the world from people on their way to the Inauguration.</p>
-                <p>Participate with Twitter, Flickr photos, or YouTube videos by tagging your contributions with the #inaug09 hash tag.</p>
+                <p>Be a part of the Inauguration in a brand new way. Explore realtime reports from around the world from people on their way to the Inauguration.</p><br/>
+                <p>Participate with Twitter, Flickr photos, or YouTube videos by tagging your contributions with the #inaug09 hash tag. See the <a href="http://www.npr.org/blogs/inside/2008/12/help_npr_plan_our_social_media.html" title="NPR: Help NPR Plan Our Social Media Activities for the Inauguration">NPR guide</a> on how the various ways to contribute reports.</p>
               </div>
             </div>
             <div class='panel' id='panel_explore'>
               <label><a href="#" class="expand expand_explore">Explore</a></label>
               <div class='short' style='display:none'>
-                Change between the map and list of reports.
+                Switch between the map and list of reports.
                 <a href="#" class="expand expand_explore">more &raquo;</a>
               </div>
               <div class='long'>
                 <div class='longb'>
-                  <div id='explore'>Loading... [will show controls for switching map/list view]</div>
+                  <div id='explore'><em>map view coming soon!</em></div>
                 </div>
               </div>
             </div>
@@ -71,7 +66,7 @@
               </div>
               <div class='long' style='display:none'>
                 <p><img src="/images/i.iphone.gif" style="float:left;margin:0 5px 40px 0"/> Use the #inaug09 tag or download our Mobile App for your iPhone, or embed the InaugurationReport in your site. </p>
-                <p><a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=297496694&amp;mt=8" style="margin:10px 0 0 20px"><img src="/images/g.iphone.download.gif" /></a></p>
+                <p><br/><em>coming soon!</em><br/><img src="/images/g.iphone.download.gif" /></p>
               </div>
             </div>
           </div>
@@ -80,7 +75,12 @@
     </div>
     <div id='footer'>
       <div class='footer fl_r'>
-        <div class='l'>Website Design &copy; 2009 FortiusOne</div>
+        <div class='l'>
+			<ul id="syndication">
+				<li id="kml_link"><%= link_to image_tag("kml_icon.png", :alt => "KML")+"View in GoogleEarth", formatted_reports_url(:kml), :title => "Download the KML to view in GoogleEarth" %></li>
+				<li id="rss_link"><%= link_to image_tag("feed_icon.png", :alt => "RSS")+"Subscribe to RSS", formatted_reports_url(:atom), :title => "Subscribe to ##{APP_TAG} GeoRSS-Atom feed" %></li>
+			</ul>
+        </div>
         <div class='r'>
           Brought to you by
           <a href="http://npr.org">NPR</a> |
@@ -94,5 +94,14 @@
     <script type='text/javascript'>
       Accordion.initialize()
     </script>
+    <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+    try {
+    var pageTracker = _gat._getTracker("UA-7010869-1");
+    pageTracker._trackPageview();
+    } catch(err) {}</script>    
   </body>
 </html>

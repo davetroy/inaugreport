@@ -19,7 +19,7 @@ a, a:visited {
 	padding-left: 10px;
 }
 #syndication {
-    float: right;
+/*    float: right;*/
 }
 
 .report {
@@ -123,9 +123,13 @@ ul#syndication {
     list-style-image:none;
     list-style-position:outside;
     list-style-type:none;
-    margin-top:20px;
+    width: 350px ;
+/*    margin-top:20px;*/
 }
-li#rss_link { margin-left:47px; }
+ul#syndication li { display: inline;}
+ul#syndication a { color: #888888;}
+ul#syndication a:hover{ color: #000000;}
+li#rss_link { margin-left:10px; }
 
 ul#syndication img { border:medium none; margin: 0 4px;}
 
