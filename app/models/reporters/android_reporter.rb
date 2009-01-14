@@ -1,5 +1,8 @@
 class AndroidReporter < Reporter
   before_create :set_location
+  
+  attr_accessor :firstname, :lastname, :zipcode, :email
+  
   validates_format_of :uniqueid, :with => /^\d{14,16}/, :on => :create, :message => "Invalid IMEI"
     
   def source_name; "#{APP_NAME} Android App"; end
