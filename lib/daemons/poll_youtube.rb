@@ -22,6 +22,7 @@ class YoutubePoller
   def poll
     while (@running) do
       doc = find_tag(@tags)
+      next unless doc['feed'] && doc['feed']['entry']
       doc['feed']['entry'].each do |e|
         begin
           next unless e && e['id'] && e.is_a?(Hash)
