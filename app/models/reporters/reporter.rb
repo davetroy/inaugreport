@@ -37,6 +37,26 @@ class Reporter < ActiveRecord::Base
     reporter
   end
   
+  # Takes hash of reporter and report data from POST
+  # and generates proper objects
+  def self.save_report(info)
+    reporter = self.update_or_create(info[:reporter])
+    if info[:soundfile]
+      report = reporter.audio_reports.create(info[:report])
+    elsif info[:imagefile]
+      report = reporter.photo_reports.create(info[:report])
+    else
+      report = reporter.text_reports.create(info[:report])
+    end
+    if uploadedfile = info[:uploaded]
+      File.open(report.filename, 'w') { |f| f.write uploadedfile.read }
+    end
+    "OK"
+  rescue => e
+    logger.info "*** #{self.class} ERROR: #{e.class}: #{e.message}\n\t#{e.backtrace.first}"
+    "ERROR"
+  end
+  
   private
   def check_home_location
     self.home_location ||= self.location if self.location

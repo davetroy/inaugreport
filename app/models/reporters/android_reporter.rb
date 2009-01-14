@@ -1,21 +1,30 @@
 class AndroidReporter < Reporter
-  before_create :set_location
+  before_save :map_fields
+  
+  attr_accessor :firstname, :lastname, :zipcode, :email
+  
   validates_format_of :uniqueid, :with => /^\d{14,16}/, :on => :create, :message => "Invalid IMEI"
     
   def source_name; "#{APP_NAME} Android App"; end
   def source; "Android"; end
-  def icon; "/images/iphone_icon.png"; end
-  def audio_filetype; "mp3"; end
-  
+  def icon; "/images/android_icon.png"; end
+  def audio_path; "#{PLATFORM_CONFIG["iphone_url"]}/audio"; end
+  def audio_filetype; "3gp"; end
+  def photo_filetype; "jpg"; end
+
+  def display_name; name; end
+
   def photo_urlformat(uniqueid)
-    "/photos/#{uniqueid}.jpg"
+    "/photos/#{uniqueid}.#{photo_filetype}"
   end
   
   private
-  def set_location
-    self.latlon, location_accuracy = self.latlon.split(':')
-    if self.location = Location.geocode(self.latlon)
-      self.profile_location = self.location.address if self.profile_location.nil?
+  def map_fields
+    if (self.firstname && self.lastname)
+      self.name = "#{self.firstname} #{self.lastname}"
+      self.profile_location = self.zipcode
+      self.screen_name = self.email
     end
+    true
   end
 end

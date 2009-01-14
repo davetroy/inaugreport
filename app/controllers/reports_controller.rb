@@ -194,44 +194,14 @@ class ReportsController < ApplicationController
   def create
     respond_to do |format|
       format.iphone do
-        result = save_iphone_report(params)
+        result = IphoneReporter.save_report(params)
         render :text => result and return true
       end
       format.android do
-        result = save_android_report(params)
+        result = AndroidReporter.save_report(params)
         render :text => result and return true
       end
     end
-  end
-  
-  private
-  # Store an iPhone-generated report given a hash of parameters
-  def save_iphone_report(info)
-    reporter = IphoneReporter.update_or_create(info[:reporter])
-    if info[:soundfile]
-      report = reporter.audio_reports.create(info[:report])
-    elsif info[:imagefile]
-      report = reporter.photo_reports.create(info[:report])
-    else
-      report = reporter.text_reports.create(info[:report])
-    end
-    if uploadedfile = params[:uploaded]
-      File.open(report.filename, 'w') { |f| f.write uploadedfile.read }
-    end
-    "OK"
-  rescue => e
-    logger.info "*** IPHONE ERROR: #{e.class}: #{e.message}\n\t#{e.backtrace.first}"
-    "ERROR"
-  end
-  
-  # Store an Android-generated report given a hash of parameters
-  def save_android_report(info)
-    reporter = AndroidReporter.update_or_create(info[:reporter])
-    report = reporter.reports.create(info[:report].merge(:latlon => info[:reporter][:latlon]))
-    "OK"
-  rescue => e
-    logger.info "*** ANDROID ERROR: #{e.class}: #{e.message}\n\t#{e.backtrace.first}"
-    "ERROR"
   end
   
 end
