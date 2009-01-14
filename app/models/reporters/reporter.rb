@@ -3,6 +3,7 @@ class Reporter < ActiveRecord::Base
   has_many :audio_reports, :dependent => :destroy
   has_many :photo_reports, :dependent => :destroy
   has_many :text_reports, :dependent => :destroy
+  has_many :video_reports, :dependent => :destroy
   
   belongs_to :location
   belongs_to :home_location, :class_name => "Location"

@@ -3,7 +3,8 @@ class Report < ActiveRecord::Base
   validates_presence_of :reporter_id
   validates_uniqueness_of :uniqueid, :scope => :source, :allow_blank => true, :message => 'already processed'
   
-  attr_accessor :latlon
+  # Virtual fields provided by some reporters
+  attr_accessor :latlon, :location_name
   
   belongs_to :location
   belongs_to :reporter
@@ -200,6 +201,8 @@ class Report < ActiveRecord::Base
       ll, self.location_accuracy = self.latlon.split(/:/)
       ll.gsub!(/ /,'')
       self.location = Location.geocode(ll)
+    elsif self.location_name
+      self.location = Location.geocode(location_name)
     elsif self.body
       LOCATION_PATTERNS.find { |p| self.body[p] }
       self.location = Location.geocode($1) if $1

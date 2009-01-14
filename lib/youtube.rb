@@ -11,6 +11,9 @@ module Youtube
     doc
   end
   
+  def get_user(name)
+    get_and_parse_xml_safely("http://gdata.youtube.com/feeds/users/#{name}")
+  end
   
   def get_and_parse_xml_safely(url)
     retries = 0
