@@ -9,7 +9,7 @@ class AndroidReporter < Reporter
   def source; "Android"; end
   def icon; "/images/android_icon.png"; end
   def audio_path; "#{PLATFORM_CONFIG["iphone_url"]}/audio"; end
-  def audio_filetype; "mp3"; end
+  def audio_filetype; "3gp"; end
   def photo_filetype; "jpg"; end
 
   def display_name; name; end
