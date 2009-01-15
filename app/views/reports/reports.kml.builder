@@ -17,7 +17,7 @@ xml.kml("xmlns" => "http://earth.google.com/kml/2.2",
         xml.tag! "Style" do
           xml.tag! "IconStyle" do
             xml.tag! "Icon" do
-              xml.href score_icon(report.score)
+              xml.href report.icon
             end
           end unless report.reporter.nil?
           xml.tag! "LabelStyle" do
@@ -30,7 +30,7 @@ xml.kml("xmlns" => "http://earth.google.com/kml/2.2",
   #{ if report.reporter.class == TwitterReporter
     link_to( image_tag(report.icon, :class => "profile", :target=>"new"), report.reporter.profile)
    else 
-     image_tag(report.icon, :class => "profile")
+     image_tag(report.reporter.icon, :class => "profile")
    end }
   <span class="vcard author" id="screen_name">#{report.reporter.name}</span>: <span class="entry-title">#{report.display_text}</span> 
   <span class="whenwhere">

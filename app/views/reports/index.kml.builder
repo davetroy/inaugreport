@@ -11,11 +11,11 @@ xml.kml("xmlns" => "http://earth.google.com/kml/2.2",
     xml.tag! "NetworkLink" do
       xml.name "##{APP_TAG} live updating"
       xml.tag! "Link" do
-        xml.href kml_feed_url(:count => 4000)
+        xml.href formatted_reports_url(:format => :kml, :live => 1)
         xml.refreshMode "onInterval"
-        xml.refreshInterval 60
-        xml.viewRefreshMode "onStop"
-        xml.viewRefreshTime 30
+        xml.refreshInterval 240
+        xml.viewRefreshMode "onInterval"
+        xml.viewRefreshTime 240
       end
     end
   end
