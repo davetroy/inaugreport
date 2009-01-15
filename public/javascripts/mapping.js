@@ -17,7 +17,7 @@ function initMap(map_filters){
     mapstraction.addOverlay("/reports.kml?live=1&"+ filters);
     last_updated = new Date().toISO8601String();
     jQuery("#last_updated").text(last_updated);
-    setInterval("updateMap();",60000);
+    // setInterval("updateMap();",60000);
 
     $$('.load_map').invoke('observe','click', MapList.on_item_click )
 }
