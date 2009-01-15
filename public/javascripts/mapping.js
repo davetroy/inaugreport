@@ -30,11 +30,14 @@ function loadJSON(file, handler) {
 	req.send(null); 
 }
 function remoteLoad(file, handler) {
-	jsonp(file, handler);
+	jsonp_mapping(file, handler);
 }
 
-function jsonp(url,callback, query)
-{                
+function jsonp_mapping(url,callback, query)
+{ 
+    if(url == null)
+      return null;
+      
     if (url.indexOf("?") > -1)
         url += "&callback=" 
     else
@@ -77,8 +80,9 @@ function initMapJS(url,map_filters){
     jQuery("#last_updated").text(last_updated);
     updateMap();
     setInterval("updateMap();",60000);
-
-    remoteLoad(url,"")
+    if(url != null) { 
+      remoteLoad(url,"")
+    }
 }
 var current_page = 1;
 function updateState(state, page) {
