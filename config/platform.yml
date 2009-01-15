@@ -1,14 +1,14 @@
 development:
     name: InaugurationDev
-    url: http://localhost:4000
-    iphone_url: http://localhost:4000
+    url: http://localhost:3008
+    iphone_url: http://localhost:3008
     audio_url: http://calls.inaugurationreport.com
     tag: inaug09
     
 test:
     name: InaugurationTest
-    url: http://localhost:4000
-    iphone_url: http://localhost:4000
+    url: http://localhost:3008
+    iphone_url: http://localhost:3008
     audio_url: http://calls.inaugurationreport.com
     tag: inaug09
 

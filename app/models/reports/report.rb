@@ -91,7 +91,7 @@ class Report < ActiveRecord::Base
   end    
 
   def media_link
-    "#{SERVER_URL}#{self.url}" if self.respond_to?(:url)
+    "#{self.url}" if self.respond_to?(:url)
   end
   
   def self.find_with_filters(filters = {})
@@ -113,7 +113,6 @@ class Report < ActiveRecord::Base
       conditions[0] << "body LIKE :q"
       filters[:q] = "%#{filters[:q]}%"
     end
-    logger.debug("FIlteR! #{filters.to_yaml}")
     
     if filters.include?(:state) && !filters[:state].blank?
       filtered = Filter.find_by_name(US_STATES[filters[:state]])

@@ -145,69 +145,57 @@ var item;
 var asset_server = "http://assets0.mapufacture.com";
 var num_markers = 0;
 for (var i = 0; i < features.length; i++) {
-	item = features[i].report;
-	if(item.location != null && item.location.location.point != null) {
+  item = features[i];
+  if(item != null && item.location != null && item.location.location.point != null) {
+    switch(item.location.location.point.type) {
+      case "Point":
+      var icon_size; var icon;
+      if(item.score != null) {
+        if(item.score <= 30)
+        icon = "/images/score_bad.png";
+        else if (item.score <= 70)
+        icon = "/images/score_medium.png";
+        else
+        icon = "/images/score_good.png";
+      }
+      else if(item.icon == "" || item.icon == null){
+        icon = "/images/gmaps/pushpins/webhues/159.png" 
+        icon_size = [10,17];
 
-		switch(item.location.location.point.type) {
-			case "Point":
-			var icon_size; var icon;
-            if(item.score != null) {
-                if(item.score <= 30)
-                    icon = "/images/score_bad.png"
-                else if (item.score <= 70)
-                    icon = "/images/score_medium.png"
-                else
-                    icon = "/images/score_good.png"
-            }
-			else if(item.icon == "" || item.icon == null){
-				icon = "/images/gmaps/pushpins/webhues/159.png" 
-				icon_size = [10,17];
-				
-			} else {
-                icon = "/images/score_none.png"
-                // icon = item.icon;
-			}
-			icon_scale = 0.18 * item.wait_time + 10;
-			if(icon_scale > 24)
-			    icon_scale = 24
-            icon_size = [icon_scale,icon_scale];
+      } else {
+        icon = item.icon
+      }
+      icon_scale = 18
+      if(icon_scale > 24)
+        icon_scale = 24
+      icon_size = [icon_scale,icon_scale];
 
-            // html = "<div class='balloon'><strong><img src='" + item.icon + "'>" + item.name + "</strong><br />" + item.display_text + "<br />";
-            html = item.display_html;
+      html = item.display_html;
 
-            //             if(item.score != null)
-            //                 html += "score: <img src='"+icon+"'/> ("+item.score+"%)";
-            //             if(item.score != null)
-            //                 html += "<br />Wait time: "+ item.wait_time+" min";
-            //             if(item.location.location.address != null)
-            //                 html += "<br />Location: "+ item.location.location.address+" min";
-            // 
-            // html += "</div>";
-			
-			this.addMarkerWithData(new Marker(new LatLonPoint(item.location.location.point.coordinates[1],item.location.location.point.coordinates[0])),{
-				infoBubble : html, 
-				label : item.name, 
-				date : "new Date(\""+item.created_at+"\")", 
-				iconShadow : "http://mapufacture.com/images/providers/blank.png",
-				marker : item.id, 
-				date : "new Date(\""+item.date+"\")", 
-				iconShadowSize : [0,0],
-				icon : icon,
-				iconSize : icon_size, 
-				category : item.source_id, 
-				draggable : false, 
-				hover : false});
-			num_markers += 1;
-				break;
-			case "Polygon":
-				var points = [];
-				polyline = new Polyline(points);
-				this.addPolylineWithData(polyline,{fillColor : item.poly_color,date : "new Date(\""+item.date+"\")",category : item.source_id,width : item.line_width,opacity : item.line_opacity,color : item.line_color, polygon : true});					
-				default:
-				// console.log("Geometry: " + features.items[i].geometry.type);
-			}
-		}
-	}
+      this.addMarkerWithData(new Marker(new LatLonPoint(item.location.location.point.coordinates[1],item.location.location.point.coordinates[0])),{
+        infoBubble : html, 
+        label : item.name, 
+        date : "new Date(\""+item.created_at+"\")", 
+        iconShadow : "http://mapufacture.com/images/providers/blank.png",
+        marker : item.id, 
+        date : "new Date(\""+item.date+"\")", 
+        iconShadowSize : [0,0],
+        icon : icon,
+        iconSize : icon_size, 
+        category : item.source_id, 
+        draggable : false, 
+        hover : false});
+        num_markers += 1;
+        break;
+        case "Polygon":
+        var points = [];
+        polyline = new Polyline(points);
+        this.addPolylineWithData(polyline,{fillColor : item.poly_color,date : "new Date(\""+item.date+"\")",category : item.source_id,width : item.line_width,opacity : item.line_opacity,color : item.line_color, polygon : true});					
+        default:
+        // console.log("Geometry: " + features.items[i].geometry.type);
+      }
+    }
+  }
     return num_markers;
 }
 

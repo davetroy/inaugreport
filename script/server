@@ -1,3 +1,10 @@
 #!/usr/bin/env ruby
+%w{ uri yaml }.each {|gem| require gem}
+
+PLATFORM_CONFIG = YAML.load_file("config/platform.yml")[ENV['RAILS_ENV']||'development']
+default_port = URI.parse(PLATFORM_CONFIG["url"]).port
+
+ARGV << "-p#{default_port}" unless ARGV.to_s.include?("-p")
+
 require File.dirname(__FILE__) + '/../config/boot'
 require 'commands/server'

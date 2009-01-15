@@ -4,6 +4,6 @@ class AudioReport < Report
   end
   
   def url
-    "/audio/#{uniqueid}.#{reporter.audio_filetype}"
+    "#{SERVER_URL}/audio/#{uniqueid}.#{reporter.audio_filetype}"
   end
 end
