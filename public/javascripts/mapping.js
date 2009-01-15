@@ -3,6 +3,8 @@ var last_updated = null;
 var filters = "";
 var state = ""; // used for autoZoom toggling
 
+
+
 function initMap(map_filters){
     // initialise the map with your choice of API
     mapstraction = new Mapstraction('map','google');
@@ -17,7 +19,10 @@ function initMap(map_filters){
     jQuery("#last_updated").text(last_updated);
     setInterval("updateMap();",60000);
 
+    $$('.load_map').invoke('observe','click', MapList.on_item_click )
 }
+
+
 function loadJSON(file, handler) {
 	req = new XMLHttpRequest();
 	req.open("GET", file, true); 
@@ -53,7 +58,7 @@ function fadeMap() {
     // mapstraction.getMap().addOverlay(new GPolygon([new GLatLng(-85,270),new GLatLng(85,270),new GLatLng(85,360),new GLatLng(-85,360)],null,0,0,"#BBBBBB",0.4));
 
 }
-function initMapJS(map_filters){
+function initMapJS(url,map_filters){
     // initialise the map with your choice of API
     mapstraction = new Mapstraction('map','google');
     filters = map_filters;
@@ -73,6 +78,7 @@ function initMapJS(map_filters){
     updateMap();
     setInterval("updateMap();",60000);
 
+    remoteLoad(url,"")
 }
 var current_page = 1;
 function updateState(state, page) {

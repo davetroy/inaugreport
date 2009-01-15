@@ -4,12 +4,21 @@
   <%= yield :style %>
   <%= yield :head %>
   <title><%= APP_NAME %></title>
-	<%= javascript_include_tag 'prototype','effects','application' %>
+	<%= javascript_include_tag 'prototype','effects','application', 'f1_maker_map', 'swfobject' %>
 	<%= yield :javascript %>
 	<link rel="search" type="application/opensearchdescription+xml" title="#<%= APP_TAG %>" href="<%= SERVER_URL %>/opensearch.xml" />
 	<%- [:atom, :kml].each do |format| -%>
 	<%  auto_discovery_link_tag(format, {:controller => :reports, :action => :index, :format => format}, {:title => "##{APP_TAG} #{format} feed"}) %>
 	<%- end -%>
+    <script type='text/javascript'>
+      Maker.maker_host =  'http://maker.geocommons.dynalias.com'
+      Maker.finder_host = 'http://finder.geocommons.dynalias.com'
+      Maker.core_host =   'http://geocommons.dynalias.com'
+      // Maker.maker_host =  'http://localhost:4002';
+      // Maker.finder_host = 'http://localhost:4001';
+      // Maker.core_host =   'http://localhost:4000';
+      
+    </script>
 
 </head>
 <body>
@@ -26,9 +35,9 @@
     <div id='content'>
       <div class='content'>
         <div class='c_main a_index' id='page'>
-          <div class='page'>
-            <div id='maker_map'>
+          <div class='page' style='height: 600px'>
               <%= yield  %>
+            <div id='maker_map' style="display:none;">
               <div class='loading' style="display:none"></div>
             </div>
           </div>
@@ -49,12 +58,41 @@
             <div class='panel' id='panel_explore'>
               <label><a href="#" class="expand expand_explore">Explore</a></label>
               <div class='short' style='display:none'>
-                Switch between the map and list of reports.
-                <a href="#" class="expand expand_explore">more &raquo;</a>
+                <ul>
+                  <li id="1">
+                    <a class="load_map load_map_6" href="javascript:void(0)">
+                      <strong>Map of reports</strong>
+                    </a>
+                  </li>
+                  <li id="2">
+                    <a class="load_list" href="javascript:void(0)">
+                      <strong>List of reports</strong>
+                    </a>
+                  </li>
+                </ul>
+                <!-- <a href="#" class="expand expand_explore">more &raquo;</a> -->
               </div>
               <div class='long'>
                 <div class='longb'>
-                  <div id='explore'><em>map view coming soon!</em></div>
+                  <!-- Fixed maps and lists -->
+                  <ul>
+                    <li id="maps_control">
+                      <a class="load_view load_view_reports_map" href="javascript:void(0)">
+                        <strong>Map of reports</strong>
+                      </a>
+                    </li>
+                    <li id="list_control">
+                      <a class="load_view load_view_reports_reports" href="javascript:void(0)">
+                        <strong>List of reports</strong>
+                      </a>
+                    </li>
+                  </ul>                  
+                  <div id='explore'>
+                    <!-- Dynamic maps -->
+                    <script type="text/javascript" charset="utf-8">
+                    Maker.find_maps("inaugreport09");
+                    </script>                                    
+                  </div>
                 </div>
               </div>
             </div>

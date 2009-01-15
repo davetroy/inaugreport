@@ -103,6 +103,7 @@ h1 small {
 
 /* __________________________( Footer ) ___ */
 #footer {
+  clear: left;
   background: #e1e1e1;
   color: #666;
 }
@@ -144,9 +145,14 @@ h1 small {
   display: block;
   margin: 5px 0;
   padding: 3px 0 3px 50px;
-  background: url(/images/b.map.gif) left 20% no-repeat;
   text-decoration: none;
   color: black;
+}
+#panel_explore li a.load_map,#panel_explore li a.load_view_reports_map  {
+  background: url(/images/b.map.gif) left 20% no-repeat;  
+}
+#panel_explore li a.load_list,#panel_explore li a.load_view_reports_reports {
+  background: url(/images/b.list.gif) left 20% no-repeat;  
 }
 #panel_explore li a:hover {
   background-color: #fcffcd;

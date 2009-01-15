@@ -1,3 +1,5 @@
+<%= render :partial => "reports/map" %>
+<div id="reports_reports" style="display:none">
 <div id="reports" class="hfeed">
   <% if !@live_feed -%>
     <%= render :partial => @reports %>
@@ -18,4 +20,4 @@
     <div id="hdn_reports_container" style="display: none;"></div>
   <% end -%>
 <% end -%>
-
+</div>
