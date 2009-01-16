@@ -5,7 +5,7 @@ var Maker = {
     Maker.search(q, 'Maker.on_search_results')
   },
   search: function(q,callback) {
-    jsonp_f1  (Maker.maker_host + "/searches.json", callback, "query="+encodeURIComponent(q))
+    jsonp_f1(Maker.maker_host + "/searches.json", callback, "query="+encodeURIComponent(q))
   },
   on_search_results: function(jsonData) {
     var results = jsonData.sortBy(function(s) {return s.indexed_tags})
@@ -116,3 +116,43 @@ function jsonp_f1(url,callback,query)
     script.setAttribute("type","text/javascript");                
     document.body.appendChild(script);
 }
+
+
+var Accordion = {
+  initialize: function(ev) {
+    $$('.expand').invoke('observe','click', Accordion.pick)
+    Accordion.panels = $$('.panel')
+  },
+  pick: function(ev) {
+    ev.stop();
+    el = ev.element()
+    panel = $("panel_" + id_from_class_pair(el, "expand"))
+    Accordion.panels.without(panel).each(function(panel){
+      Accordion.transition(panel, 'minimize')
+    })
+    Accordion.transition(panel, 'maximize')
+  },
+  transition: function(panel,action) {
+    var lng  = $$('#'+panel.id +' .long' ).first()    
+    var shrt = $$('#'+panel.id +' .short').first()
+    if (action=='maximize' && !lng.visible()) {
+      Accordion.tween_swap(shrt, lng)
+    } 
+    if (action=='minimize' && lng.visible()) {
+      Accordion.tween_swap(lng, shrt)
+    }
+  },
+  
+  tween_swap: function(from,to) {
+    to.style.overflow = 'hidden'
+    to.style.visibility = 'hidden'  //visibility hack required in order to get an accurate height calculation on a 'display:none' object.
+    to.show()
+    var heightStart = from.getHeight()
+    var heightEnd = to.getHeight()
+    to.style.height = heightStart + 'px'
+    to.style.visibility = 'visible'
+    from.hide() 
+    new Effect.Tween(to, heightStart, heightEnd, {duration: 0.5}, function(v){this.style.height = v + 'px'});
+  } 
+}
+

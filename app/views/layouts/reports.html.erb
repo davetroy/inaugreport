@@ -4,11 +4,11 @@
   <%= yield :style %>
   <%= yield :head %>
   <title><%= APP_NAME %></title>
-	<%= javascript_include_tag 'prototype','effects','application', 'f1_maker_map', 'swfobject' %>
+	<%= javascript_include_tag 'prototype','effects','application','f1_maker_map', 'swfobject' %>
 	<%= yield :javascript %>
-	<link rel="search" type="application/opensearchdescription+xml" title="#<%= APP_TAG %>" href="<%= SERVER_URL %>/opensearch.xml" />
+  <!-- <link rel="search" type="application/opensearchdescription+xml" title="#<%= APP_TAG %>" href="<%= SERVER_URL %>/opensearch.xml" /> -->
 	<%- [:atom, :kml].each do |format| -%>
-	<%  auto_discovery_link_tag(format, {:controller => :reports, :action => :index, :format => format}, {:title => "##{APP_TAG} #{format} feed"}) %>
+	<%#  auto_discovery_link_tag(format, {:controller => :reports, :action => :index, :format => format}, {:title => "##{APP_TAG} #{format} feed"}) %>
 	<%- end -%>
     <script type='text/javascript'>
       Maker.maker_host =  'http://maker.geocommons.dynalias.com'

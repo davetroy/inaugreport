@@ -3,32 +3,6 @@ var last_updated = null;
 var filters = "";
 var state = ""; // used for autoZoom toggling
 
-
-
-function initMap(map_filters){
-    // initialise the map with your choice of API
-    mapstraction = new Mapstraction('map','google');
-
-    filters = map_filters;
-    var myPoint = new LatLonPoint(50, -110);
-    // display the map centered on a latitude and longitude (Google zoom levels)
-    mapstraction.setCenterAndZoom(myPoint, 3);
-    mapstraction.addControls({zoom: 'small'});
-    mapstraction.addOverlay("/reports.kml?live=1&"+ filters);
-    last_updated = new Date().toISO8601String();
-    jQuery("#last_updated").text(last_updated);
-    // setInterval("updateMap();",60000);
-
-    $$('.load_map').invoke('observe','click', MapList.on_item_click )
-}
-
-
-function loadJSON(file, handler) {
-	req = new XMLHttpRequest();
-	req.open("GET", file, true); 
-	req.onreadystatechange = handler;   // the handler 
-	req.send(null); 
-}
 function remoteLoad(file, handler) {
 	jsonp_mapping(file, handler);
 }
@@ -55,11 +29,7 @@ function jsonp_mapping(url,callback, query)
 
 // Adds a semi-opaque gray overlay on the map to make the markers pop out more
 function fadeMap() {
-    // mapstraction.getMap().addOverlay(new GPolygon([new GLatLng(-85,0),new GLatLng(85,0),new GLatLng(85,90),new GLatLng(-85,90)],null,0,0,"#BBBBBB",0.4));
-    // mapstraction.getMap().addOverlay(new GPolygon([new GLatLng(-85,90),new GLatLng(85,90),new GLatLng(85,180),new GLatLng(-85,180)],null,0,0,"#BBBBBB",0.4));
     mapstraction.getMap().addOverlay(new GPolygon([new GLatLng(20,180.000001),new GLatLng(70,180.000001),new GLatLng(70,330),new GLatLng(-20,330)],null,0,0,"#d0d0d0",0.4));
-    // mapstraction.getMap().addOverlay(new GPolygon([new GLatLng(-85,270),new GLatLng(85,270),new GLatLng(85,360),new GLatLng(-85,360)],null,0,0,"#BBBBBB",0.4));
-
 }
 map_initialized = false;
 function initMapJS(url,map_filters){
@@ -87,29 +57,29 @@ function initMapJS(url,map_filters){
     // }
 }
 var current_page = 1;
-function updateState(state, page) {
-    var current_filter = "";
-    if(page == null)
-        page = 1;
-    else {
-        jQuery("#page_" + current_page).removeClass("current");
-        jQuery("#page_" + page).addClass("current");        
-    }
-
-    hideMessage();
-    current_page = page;
-    mapstraction.removeAllMarkers();
-    fadeMap();
-    gmarkers = [];
-    filters = current_filter = "state=" + state;
-        
-    jQuery("#update_status").show();
-    if(state == null)
-        $.getJSON("/feeds/" + page +".json", "");    
-    else
-        $.getJSON("/feeds/state/"+state+"/" + page +".json", "");
-    return false;
-}
+// function updateState(state, page) {
+//     var current_filter = "";
+//     if(page == null)
+//         page = 1;
+//     else {
+//         jQuery("#page_" + current_page).removeClass("current");
+//         jQuery("#page_" + page).addClass("current");        
+//     }
+// 
+//     hideMessage();
+//     current_page = page;
+//     mapstraction.removeAllMarkers();
+//     fadeMap();
+//     gmarkers = [];
+//     filters = current_filter = "state=" + state;
+//         
+//     jQuery("#update_status").show();
+//     if(state == null)
+//         $.getJSON("/feeds/" + page +".json", "");    
+//     else
+//         $.getJSON("/feeds/state/"+state+"/" + page +".json", "");
+//     return false;
+// }
 function updateMap(map_filter) {
     var current_filter = "";
     hideMessage();
