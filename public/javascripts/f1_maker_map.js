@@ -18,9 +18,10 @@ var Maker = {
 var FlashMap = {
   load_map: function(dom_id, map_id) {
     FlashMap.dom_id = dom_id
-    var flashvars  = {map_id:map_id, core_host: Maker.core_host + '/', maker_host: Maker.maker_host + '/'}
-    var params     = {base: Maker.maker_host}
-    swfobject.embedSWF(Maker.maker_host + "/Embed.swf", dom_id, "100%", "710", "9.0.0", Maker.maker_host + "/expressInstall.swf", flashvars, params)
+    var flashvars  = {map_id:map_id, core_host: Maker.core_host + '/', maker_host: Maker.maker_host + '/', dev:"false"}    
+    var params     = {base: Maker.maker_host, "allowScriptAccess":"always", "allowNetworking": "all"};
+    var attributes = {"allowScriptAccess":"always", "allowNetworking": "all"};
+    swfobject.embedSWF(Maker.maker_host + "/Embed.swf", dom_id, "100%", "710", "9.0.0", Maker.maker_host + "/expressInstall.swf", flashvars, params, attributes)
     Event.observe(window, 'resize', FlashMap.resize_map_to_fit)
     FlashMap.resize_when_ready()
   },
@@ -73,9 +74,14 @@ var MapList = {
     if (el.tagName != 'A') {el = el.parentNode} 
     if (el.tagName != 'A') {el = el.parentNode} //nesting without recursion
     var div = id_from_class_pair(el, "load_view");
-    if(div != 'reports_reports') {$('reports_reports').hide()}
+    $('maker_map').hide();
     if(div != 'reports_map') {$('reports_map').hide()}
     $(div).show();
+    if(div != 'reports_reports') {
+      $('reports_reports').hide();
+      if(!map_initialized)
+        initalizeMap();
+    }
   },
   
   on_item_click: function(ev) {
@@ -84,6 +90,10 @@ var MapList = {
     if (el.tagName != 'A') {el = el.parentNode}
     if (el.tagName != 'A') {el = el.parentNode} 
     if (el.tagName != 'A') {el = el.parentNode} //nesting without recursion
+    $('reports_reports').hide();
+    $('reports_map').hide();
+    $('maker_map').show();
+
     FlashMap.load_map('maker_map', id_from_class_pair(el, "load_map"))
   }
   

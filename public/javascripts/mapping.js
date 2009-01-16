@@ -61,7 +61,9 @@ function fadeMap() {
     // mapstraction.getMap().addOverlay(new GPolygon([new GLatLng(-85,270),new GLatLng(85,270),new GLatLng(85,360),new GLatLng(-85,360)],null,0,0,"#BBBBBB",0.4));
 
 }
+map_initialized = false;
 function initMapJS(url,map_filters){
+  map_initialized = true;
     // initialise the map with your choice of API
     mapstraction = new Mapstraction('map','google');
     filters = map_filters;
@@ -79,10 +81,10 @@ function initMapJS(url,map_filters){
     last_updated = new Date().toISO8601String();
     jQuery("#last_updated").text(last_updated);
     updateMap();
-    setInterval("updateMap();",60000);
-    if(url != null) { 
-      remoteLoad(url,"")
-    }
+    // setInterval("updateMap();",60000);
+    // if(url != null) { 
+    //   remoteLoad(url,"")
+    // }
 }
 var current_page = 1;
 function updateState(state, page) {

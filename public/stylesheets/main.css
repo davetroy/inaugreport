@@ -103,7 +103,7 @@ h1 small {
 
 /* __________________________( Footer ) ___ */
 #footer {
-  clear: left;
+  clear: both;
   background: #e1e1e1;
   color: #666;
 }

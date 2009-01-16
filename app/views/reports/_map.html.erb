@@ -15,19 +15,19 @@
 <div id="message" style="display:none"></div>
 
 <%# render :partial => 'legend', :locals => {:reports => @reports} if !params[:clean]%>
-
+<div id="update_status" style="display:none"></div>
 <script type="text/javascript" charset="utf-8">
     jQuery.noConflict();
-    jQuery(document).ready(function() {
+    function initalizeMap() {
           initMapJS();
      filters = "<%= @filters.collect{|k,v| "#{k}=#{v}"}.join("&") %>";
      state = "<%= @filters[:state] || '' %>";
      // remoteLoad("/reports.json?wait_time=0&per_page=200&" + filters, "updateJSON")
      <%- if @filters[:state].blank?  -%>
-          remoteLoad("<%= json_feed_url(:wait_time => 0, :page => 1, :per_page => 200, :callback => 'updateJSON') %>","")
+          remoteLoad("<%= json_feed_url(:page => 1, :per_page => 200, :callback => 'updateJSON') %>","")
      <%- else -%>
-          remoteLoad("<%= json_state_feed_url(:state => @filters[:state], :wait_time => 0, :page => 1, :per_page => 200, :callback => 'updateJSON') %>","")
+          remoteLoad("<%= json_state_feed_url(:state => @filters[:state], :page => 1, :per_page => 200, :callback => 'updateJSON') %>","")
      <%- end -%>
-     });
+   }
 </script>
 </div>
