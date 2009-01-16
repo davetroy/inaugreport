@@ -76,6 +76,11 @@ h1 small {
 
 #content {
   position: relative;
+  clear:right;
+  min-height: 700px;
+}
+.content {
+  clear:both;
 }
 #page {
    width: 100%;
