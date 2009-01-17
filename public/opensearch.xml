@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
  <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:geo="http://a9.com/-/opensearch/extensions/geo/1.0/">
-   <ShortName>#votereport</ShortName>
+   <ShortName>#inaug09</ShortName>
    <Description>Election 2008 vote reporting</Description>
    <Tags>election voting votereport democracy</Tags>
-   <Contact>robot@votereport.us</Contact>
-   <Image width="16" height="16" type="image/x-icon">http://votereport.us/favicon.ico</Image>
-   <Url type="text/html" template="http://votereport.us/reports?q={searchTerms?}&name={user?}&amp;state={location:state?}&amp;count={count?}&amp;page={startPage?}&amp;dtstart={time:start?}&amp;dtend={time:end?}"/>
-   <Url type="application/atom+xml" template="http://votereport.us/reports.atom?q={searchTerms?}&amp;name={user?}&amp;state={location:state?}&amp;count={count?}&amp;page={startPage?}&amp;dtstart={time:start?}&amp;dtend={time:end?}"/>
-   <Url type="application/vnd.google-earth.kml+xml" template="http://votereport.us/reports.kml?q={searchTerms?}&amp;name={user?}&amp;state={location:state?}&amp;count={count?}&amp;page={startPage?}&amp;dtstart={time:start?}&amp;dtend={time:end?}"/>
+   <Contact>robot@inaugurationreport.com</Contact>
+   <Image width="16" height="16" type="image/x-icon">http://inaugurationreport.com/favicon.ico</Image>
+   <Url type="text/html" template="http://inaugurationreport.com/reports?q={searchTerms?}&name={user?}&amp;state={location:state?}&amp;count={count?}&amp;page={startPage?}&amp;dtstart={time:start?}&amp;dtend={time:end?}"/>
+   <Url type="application/atom+xml" template="http://inaugurationreport.com/reports.atom?q={searchTerms?}&amp;name={user?}&amp;state={location:state?}&amp;count={count?}&amp;page={startPage?}&amp;dtstart={time:start?}&amp;dtend={time:end?}"/>
+   <Url type="application/vnd.google-earth.kml+xml" template="http://inaugurationreport.com/reports.kml?q={searchTerms?}&amp;name={user?}&amp;state={location:state?}&amp;count={count?}&amp;page={startPage?}&amp;dtstart={time:start?}&amp;dtend={time:end?}"/>
  </OpenSearchDescription>

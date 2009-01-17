@@ -1,9 +1,10 @@
-<div id="reports_map" style="">
-  <div id="map"></div>
-	<!-- <script src="http://openlayers.org/api/2.6/OpenLayers.js"></script> -->
+<div id="reports_map" style="display:none">
+  <div id="map" style="height: 600px;"></div>
     <script src="http://maps.google.com/maps?file=api&v=2&key=<%=GMAPS_API_KEY%>" type="text/javascript"></script>
-    <script type="text/javascript" src="/javascripts/mapstraction.js"></script>	
-    <script type="text/javascript" src="/javascripts/mapping.js"></script>	
+    <!-- <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAYfI_xw3MwUbmAScWsa72VBTaQRK2QQ_rYPeJVnX1fGGFwH1GPxRYP-Zk1S-PLL3tsV43rRR_kAAouw" type="text/javascript"></script> -->
+
+    <script type="text/javascript" src="/javascripts/mapstraction.js"></script> 
+    <script type="text/javascript" src="/javascripts/mapping.js"></script>   
 	<script type="text/javascript" src="/javascripts/jquery.min.js"></script>	
     <style type="text/css">
         #map {
@@ -12,22 +13,22 @@
             border: 1px solid gray;
         }
     </style>
-<div id="message" style="display:none"></div>
+<div id="message" style="display:none">Loading...</div>
 
 <%# render :partial => 'legend', :locals => {:reports => @reports} if !params[:clean]%>
-
+<div id="update_status" style="display:none"></div>
 <script type="text/javascript" charset="utf-8">
     jQuery.noConflict();
-    jQuery(document).ready(function() {
-          initMapJS();
-     filters = "<%= @filters.collect{|k,v| "#{k}=#{v}"}.join("&") %>";
-     state = "<%= @filters[:state] || '' %>";
-     // remoteLoad("/reports.json?wait_time=0&per_page=200&" + filters, "updateJSON")
-     <%- if @filters[:state].blank?  -%>
-          remoteLoad("<%= json_feed_url(:wait_time => 0, :page => 1, :per_page => 200, :callback => 'updateJSON') %>","")
-     <%- else -%>
-          remoteLoad("<%= json_state_feed_url(:state => @filters[:state], :wait_time => 0, :page => 1, :per_page => 200, :callback => 'updateJSON') %>","")
+    function initalizeMap() {
+      initMapJS();
+      filters = "<%= @filters.collect{|k,v| "#{k}=#{v}"}.join("&") %>";
+      state = "<%= @filters[:state] || '' %>";
+      // remoteLoad("/reports.json?wait_time=0&per_page=200&" + filters, "updateJSON")
+      <%- if @filters[:state].blank?  -%>
+      remoteLoad("<%= json_feed_url(:page => 1, :per_page => 200, :callback => 'updateJSON') %>","")
+      <%- else -%>
+      remoteLoad("<%= json_state_feed_url(:state => @filters[:state], :page => 1, :per_page => 200, :callback => 'updateJSON') %>","")
      <%- end -%>
-     });
+   }
 </script>
 </div>
