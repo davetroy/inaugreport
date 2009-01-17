@@ -37,7 +37,7 @@ class Reporter < ActiveRecord::Base
     reporter
   end
   
-  # Takes hash of reporter and report data from POST
+  # Takes hash of reporter and report data from POST (or email)
   # and generates proper objects
   def self.save_report(info)
     reporter = self.update_or_create(info[:reporter])
