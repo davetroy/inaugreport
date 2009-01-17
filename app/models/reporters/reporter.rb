@@ -10,7 +10,7 @@ class Reporter < ActiveRecord::Base
 
   validates_presence_of :uniqueid
   validates_uniqueness_of :uniqueid, :scope => :type, :allow_blank => false
-  before_save :check_home_location
+  before_save { |record| record.home_location ||= record.location if record.location }
   
   cattr_accessor :public_fields
   @@public_fields = [:name]
@@ -57,8 +57,4 @@ class Reporter < ActiveRecord::Base
     "ERROR"
   end
   
-  private
-  def check_home_location
-    self.home_location ||= self.location if self.location
-  end
 end
