@@ -31,7 +31,7 @@ class TwitterReporter < Reporter
   end
   
   def blocked?
-    BLOCKED_TWITTER_USERS.include?(screen_name)
+    BLOCKED_TWITTER_USERS.include?(self.screen_name)
   end
   
   private

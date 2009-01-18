@@ -226,6 +226,6 @@ class Report < ActiveRecord::Base
   end
   
   def block_banned
-    !(reporter.blocked?)
+    !reporter.blocked?
   end
 end
