@@ -5,7 +5,7 @@ class Receiver < ActionMailer::Base
                   'screen_name' => email.from.first,
                   'name' => email.friendly_from }
     reporter = EmailReporter.update_or_create(user_info)
-    reporter.save
+    puts "email from #{reporter.name}"
     
     if email.parts.size.zero?
       reporter.text_reports.create(:title => email.subject, :body => email.body)
