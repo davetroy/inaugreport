@@ -9,7 +9,4 @@ class ReceiverTest < ActionMailer::TestCase
     Receiver.receive(email_text)
   end
 
-  test "the truth" do
-    assert true
-  end
 end
