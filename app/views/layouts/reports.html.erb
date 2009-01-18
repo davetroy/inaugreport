@@ -4,7 +4,7 @@
   <%= yield :style %>
   <%= yield :head %>
   <title><%= APP_NAME %></title>
-	<%= javascript_include_tag 'prototype','effects','application','f1_maker_map', 'swfobject' %>
+	<%= javascript_include_tag 'prototype','effects','application','swfobject','f1_maker_map' %>
 	<%= yield :javascript %>
   <!-- <link rel="search" type="application/opensearchdescription+xml" title="#<%= APP_TAG %>" href="<%= SERVER_URL %>/opensearch.xml" /> -->
 	<%- [:atom, :kml].each do |format| -%>
@@ -13,11 +13,7 @@
     <script type='text/javascript'>
       Maker.maker_host =  'http://maker.geocommons.dynalias.com'
       Maker.finder_host = 'http://finder.geocommons.dynalias.com'
-      Maker.core_host =   'http://geocommons.dynalias.com'
-      // Maker.maker_host =  'http://localhost:4002';
-      // Maker.finder_host = 'http://localhost:4001';
-      // Maker.core_host =   'http://localhost:4000';
-      
+      Maker.core_host =   'http://geocommons.dynalias.com'      
     </script>
 
 </head>
@@ -65,8 +61,13 @@
                     </a>
                   </li>
                   <li id="maps_control">
-                      <a class="load_view load_view_reports_map" href="javascript:void(0)">
-                      <strong>Map of reports</strong>
+                      <a class="load_view load_view_reports_map view_state_dc" href="javascript:void(0)">
+                      <strong>Washington, DC Reports</strong>
+                    </a>
+                  </li>
+                  <li id="maps_control">
+                      <a class="load_view load_view_reports_map view_state_us" href="javascript:void(0)">
+                        <strong>US Map of reports</strong>
                     </a>
                   </li>
                 </ul>
@@ -81,9 +82,15 @@
                         <strong>List of reports</strong>
                       </a>
                     </li>
+                  <li id="maps_control">
+                      <a class="load_view load_view_reports_map view_state_dc" href="javascript:void(0)">
+                      <strong>Washington, DC Reports</strong>
+                    </a>
+                  </li>
+                    
                     <li id="maps_control">
-                      <a class="load_view load_view_reports_map" href="javascript:void(0)">
-                        <strong>Map of reports</strong>
+                      <a class="load_view load_view_reports_map view_state_us" href="javascript:void(0)">
+                        <strong>US Map of reports</strong>
                       </a>
                     </li>
                   </ul>                  
