@@ -1,11 +1,12 @@
 # ActionMailer receiver for reports submitted via email
 class Receiver < ActionMailer::Base
   def receive(email)
-    user_info = { :uniqueid => email.from.first,
-                  :screen_name => email.from.first,
-                  :name => email.friendly_from }
+    user_info = { 'uniqueid' => email.from.first,
+                  'screen_name' => email.from.first,
+                  'name' => email.friendly_from }
     reporter = EmailReporter.update_or_create(user_info)
-
+    reporter.save
+    
     if email.parts.size.zero?
       reporter.text_reports.create(:title => email.subject, :body => email.body)
       return true

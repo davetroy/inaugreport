@@ -14,7 +14,8 @@ class ReceiverTest < ActionMailer::TestCase
   test "single part report is received properly" do
     email_text = File.read("#{FIXTURES_PATH}/single_part_email")
     Receiver.receive(email_text)
-    report = Report.find(:first)
-    assert_match /single part email/, report.body
+    reports = Report.find(:all)
+    assert_equal 1, reports.size
+    assert_match /single part email/, reports.first.body
   end
 end
