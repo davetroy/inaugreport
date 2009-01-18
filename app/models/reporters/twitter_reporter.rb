@@ -30,6 +30,10 @@ class TwitterReporter < Reporter
     end    
   end
   
+  def blocked?
+    BLOCKED_TWITTER_USERS.include?(screen_name)
+  end
+  
   private
   def set_location
     if location_id.nil? || (self.profile_location!=attributes['profile_location'])

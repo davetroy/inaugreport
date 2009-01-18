@@ -57,4 +57,7 @@ class Reporter < ActiveRecord::Base
     "ERROR"
   end
   
+  def blocked?
+    false
+  end
 end

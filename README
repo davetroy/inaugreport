@@ -12,6 +12,12 @@ SMS
   Accepts input from Mozes for SMS messages that contain:
     #dctrip, #inaug09, #dctrip09, #inaug
 
+YouTube
+  Polls YouTube API for relevant keywords and grabs links to videos
+  
+Flickr
+  Polls Flickr API and grabs links to videos
+
 Telephone
   Accepts phone calls into an Asterisk system
   See adhearsion/components/vote_report/lib/votereport.rb
@@ -40,4 +46,5 @@ Bryan Liles
 Brendan O'Connor
 Deanna Zandt
 Nat Freitas
+Chris Strom
 Tony Herrera

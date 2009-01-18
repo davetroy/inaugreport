@@ -21,5 +21,4 @@ config.action_controller.perform_caching             = true
 # config.action_mailer.raise_delivery_errors = false
 
 AUDIO_UPLOAD_PATH = "/home/inaugreport/files"
-GMAPS_API_KEY = "ABQIAAAAS-9BXlmhAxzk5tMQ6009tBS3brufayud0K-TNhSZwZ84qkX6QxRbIJNSGSx9QZ5S9Ct5QzoSuQy8xQ"
-#"ABQIAAAAYfI_xw3MwUbmAScWsa72VBS3brufayud0K-TNhSZwZ84qkX6QxSEfo58_lVfuS48qB8ez6cDsXmFEw"
+GMAPS_API_KEY = "ABQIAAAAS-9BXlmhAxzk5tMQ6009tBSTo-lUxtlWjZQHujg8wiGCGX5h0hQO6yJj9_XWBlUBJq28dmQiypmbCg"

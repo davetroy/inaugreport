@@ -14,6 +14,7 @@ PLATFORM_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/platform.yml")[RAILS_ENV]
 SERVER_URL = PLATFORM_CONFIG["url"]
 APP_TAG = PLATFORM_CONFIG["tag"]
 APP_NAME = PLATFORM_CONFIG["name"]
+BLOCKED_TWITTER_USERS = %w(inaug_rss inaug inaug09)
 
 require 'digest/sha1' #for the md5 session key below
 
@@ -81,3 +82,4 @@ Rails::Initializer.run do |config|
 end
 
 ENV['TZ'] = 'UTC'
+

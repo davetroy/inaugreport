@@ -16,7 +16,7 @@ class Report < ActiveRecord::Base
   has_many :filters, :through => :report_filters
 
   before_validation :set_source
-  before_create :detect_location
+  before_create :block_banned, :detect_location
   # check_uniqueid must be AFTER create because otherwise it doesn't have an ID
   after_create :check_uniqueid, :assign_filters, :auto_review
   before_save { |record| record.location_id = record.reporter.location_id if record.location_id.nil? }
@@ -223,5 +223,9 @@ class Report < ActiveRecord::Base
   def auto_review
     # TODO: this should approve things that fall within kosher-seeming params
     true
+  end
+  
+  def block_banned
+    !(reporter.blocked?)
   end
 end
