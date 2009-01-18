@@ -5,10 +5,6 @@ class EmailReporter < Reporter
   def source; "Email"; end
   def icon; "/images/email_icon.jpg"; end
   def name; screen_name || "Email User"; end
-
-  # TODO: this concept is broken for this reporter
-  def audio_filetype; "mp3"; end
-  def photo_filetype; "jpg"; end
   
   private
   def initialize_location

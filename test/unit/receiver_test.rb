@@ -7,6 +7,8 @@ class ReceiverTest < ActionMailer::TestCase
     email_text = File.read("#{FIXTURES_PATH}/taylor_swift")
     assert_match /Taylor-Swift/, email_text
     Receiver.receive(email_text)
+    r = Report.find(:all)
+    p r
   end
 
 end

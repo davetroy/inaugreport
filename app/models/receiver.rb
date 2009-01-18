@@ -11,20 +11,25 @@ class Receiver < ActionMailer::Base
     email.each_part do |part|
       report_info = { :title => email.subject, :parent_report_id => parent_report_id }
       case part.content_type
-      when /text/
-        report = reporter.text_reports.create(report_info.merge(:body => part.unquoted_body))
-      when /image/
-        report = reporter.photo_reports.create(report_info)
-        File.open(report.filename, 'w') { |f| f.write part.body }
-      when /audio/
-        report = reporter.audio_reports.create(report_info)
-        File.open(report.filename, 'w') { |f| f.write part.body }
+        when /text/
+          report = reporter.text_reports.create(report_info.merge(:body => part.unquoted_body))
+        when /image/
+          report = reporter.photo_reports.create(report_info)
+          save_part(report, part, '/photos')
+        when /audio/
+          report = reporter.audio_reports.create(report_info)
+          save_part(report, part, '/audio')
       end
       parent_report_id ||= report.id
-      p report
     end
   end
 
-  
-
+  private
+  def save_part(report, part, urlpath)
+    filename = "#{report.uniqueid}.#{part.disposition_param('filename')}"
+    File.open("#{AUDIO_UPLOAD_PATH}/#{filename}", 'w') { |f| f.write part.body }
+    report.update_attributes(:source_url => "#{urlpath}/#{filename}")
+  rescue
+    nil
+  end
 end
