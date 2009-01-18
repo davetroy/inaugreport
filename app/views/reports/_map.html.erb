@@ -1,7 +1,9 @@
 <div id="reports_map" style="display:none">
-  <div id="map" style="height: 600px;"></div>
-    <script src="http://maps.google.com/maps?file=api&v=2&key=<%=GMAPS_API_KEY%>" type="text/javascript"></script>
-    <!-- <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAYfI_xw3MwUbmAScWsa72VBTaQRK2QQ_rYPeJVnX1fGGFwH1GPxRYP-Zk1S-PLL3tsV43rRR_kAAouw" type="text/javascript"></script> -->
+  <div id="map" style="height: 699px; border: 0px"></div>
+  
+<!--     <script src="http://maps.google.com/maps?file=api&v=2&key=<%=GMAPS_API_KEY%>" type="text/javascript"></script>
+     -->
+    <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAYfI_xw3MwUbmAScWsa72VBTaQRK2QQ_rYPeJVnX1fGGFwH1GPxRYP-Zk1S-PLL3tsV43rRR_kAAouw" type="text/javascript"></script>
 
     <script type="text/javascript" src="/javascripts/mapstraction.js"></script> 
     <script type="text/javascript" src="/javascripts/mapping.js"></script>   
@@ -15,20 +17,16 @@
     </style>
 <div id="message" style="display:none">Loading...</div>
 
-<%# render :partial => 'legend', :locals => {:reports => @reports} if !params[:clean]%>
+<%= render :partial => 'legend', :locals => {:reports => @reports} if !params[:clean]%>
 <div id="update_status" style="display:none"></div>
 <script type="text/javascript" charset="utf-8">
     jQuery.noConflict();
+    var view_urls = {us:{url:"<%= formatted_reports_url(:format => 'json', :page => 1, :per_page => 2, :callback => 'updateJSON').gsub(/&amp;/,'&') %>",filters: ""}, dc: {url:"<%= formatted_reports_url(:format => 'json', :state => 'DC', :page => 1, :per_page => 2, :callback => 'updateJSON').gsub(/&amp;/,'&') %>", filters: "" }};
     function initalizeMap() {
-      initMapJS();
       filters = "<%= @filters.collect{|k,v| "#{k}=#{v}"}.join("&") %>";
       state = "<%= @filters[:state] || '' %>";
-      // remoteLoad("/reports.json?wait_time=0&per_page=200&" + filters, "updateJSON")
-      <%- if @filters[:state].blank?  -%>
-      remoteLoad("<%= json_feed_url(:page => 1, :per_page => 200, :callback => 'updateJSON') %>","")
-      <%- else -%>
-      remoteLoad("<%= json_state_feed_url(:state => @filters[:state], :page => 1, :per_page => 200, :callback => 'updateJSON') %>","")
-     <%- end -%>
+      initMapJS();
+      // updateMap(load_url, filters);
    }
 </script>
 </div>

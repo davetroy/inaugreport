@@ -2,7 +2,7 @@ var mapstraction, drawControls;
 var last_updated = null;
 var filters = "";
 var state = ""; // used for autoZoom toggling
-
+var load_url = "";
 function remoteLoad(file, handler) {
 	jsonp_mapping(file, handler);
 }
@@ -50,37 +50,36 @@ function initMapJS(url,map_filters){
     fadeMap();
     last_updated = new Date().toISO8601String();
     jQuery("#last_updated").text(last_updated);
-    updateMap();
     // setInterval("updateMap();",60000);
     // if(url != null) { 
     //   remoteLoad(url,"")
     // }
 }
 var current_page = 1;
-// function updateState(state, page) {
-//     var current_filter = "";
-//     if(page == null)
-//         page = 1;
-//     else {
-//         jQuery("#page_" + current_page).removeClass("current");
-//         jQuery("#page_" + page).addClass("current");        
-//     }
-// 
-//     hideMessage();
-//     current_page = page;
-//     mapstraction.removeAllMarkers();
-//     fadeMap();
-//     gmarkers = [];
-//     filters = current_filter = "state=" + state;
-//         
-//     jQuery("#update_status").show();
-//     if(state == null)
-//         $.getJSON("/feeds/" + page +".json", "");    
-//     else
-//         $.getJSON("/feeds/state/"+state+"/" + page +".json", "");
-//     return false;
-// }
-function updateMap(map_filter) {
+function updateState(state, page) {
+    var current_filter = "";
+    if(page == null)
+        page = 1;
+    else {
+        jQuery("#page_" + current_page).removeClass("current");
+        jQuery("#page_" + page).addClass("current");        
+    }
+
+    hideMessage();
+    current_page = page;
+    mapstraction.removeAllMarkers();
+    fadeMap();
+    gmarkers = [];
+    filters = current_filter = "state=" + state;
+        
+    jQuery("#update_status").show();
+    if(state == null)
+        jQuery.getJSON("/feeds/" + page +".json", "");    
+    else
+        jQuery.getJSON("/feeds/state/"+state+"/" + page +".json", "");
+    return false;
+}
+function updateMap(url,map_filter) {
     var current_filter = "";
     hideMessage();
 
@@ -94,7 +93,8 @@ function updateMap(map_filter) {
     }
         
     jQuery("#update_status").show();
-    jQuery.getJSON("/reports.json?"+current_filter+"&page=1&count=200&callback=updateJSON", "");
+    // jQuery.getJSON("/reports.json?"+current_filter+"&page=1&count=200&callback=updateJSON", "");
+    jQuery.getJSON(url, "");
     return false;
 }
 function showMessage(message) {
@@ -109,8 +109,8 @@ function updateJSON(response) {
     var num_markers = mapstraction.addJSON(response);
     if(num_markers <= 0)
         showMessage("Sorry - no reports with this filter.");
-    else if(state != "")
-        mapstraction.autoCenterAndZoom();
+    
+    mapstraction.autoCenterAndZoom();
     
     last_updated = new Date().toISO8601String();
     jQuery("#last_updated").text(last_updated);    
