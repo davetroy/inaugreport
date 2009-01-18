@@ -1,11 +1,13 @@
 # ActionMailer receiver for reports submitted via email
 class Receiver < ActionMailer::Base
   def receive(email)
+    source_ip = email['Received'].last.comments.first[/\[([\d\.]+)\]/,1] rescue nil
     user_info = { 'uniqueid' => email.from.first,
                   'screen_name' => email.from.first,
-                  'name' => email.friendly_from }
+                  'name' => email.friendly_from,
+                  'profile_location' => source_ip }
     reporter = EmailReporter.update_or_create(user_info)
-    puts "email from #{reporter.name}"
+    puts "email from #{reporter.name} at #{reporter.profile_location}"
     
     if email.parts.size.zero?
       reporter.text_reports.create(:title => email.subject, :body => email.body)

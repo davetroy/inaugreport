@@ -6,6 +6,8 @@ class ReceiverTest < ActionMailer::TestCase
   test "multipart report is received properly" do
     email_text = File.read("#{FIXTURES_PATH}/taylor_swift")
     assert_match /Taylor-Swift/, email_text
+    reports = Report.find(:all)
+    assert_equal 0, reports.size
     Receiver.receive(email_text)
     reports = Report.find(:all)
     assert_equal 3, reports.size
@@ -13,6 +15,8 @@ class ReceiverTest < ActionMailer::TestCase
 
   test "single part report is received properly" do
     email_text = File.read("#{FIXTURES_PATH}/single_part_email")
+    reports = Report.find(:all)
+    assert_equal 0, reports.size
     Receiver.receive(email_text)
     reports = Report.find(:all)
     assert_equal 1, reports.size
