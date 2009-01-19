@@ -75,19 +75,6 @@ module ReportHelper
     end
   end
   
-  def score_icon(score)
-    if(score.nil?)
-      score_icon = "score_none.png"
-    elsif(score <= 30)
-      score_icon = "score_bad.png"
-    elsif (score <= 70)
-      score_icon = "score_medium.png"
-    else
-      score_icon = "score_good.png"
-    end    
-    "#{SERVER_URL}/images/#{score_icon}"
-  end
-  
   def bumpspark2( results )
      white, red, grey = 0, 16, 32
      padding = 3 - ( results.length - 1 ) % 4

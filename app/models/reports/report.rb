@@ -84,13 +84,13 @@ class Report < ActiveRecord::Base
     options[:only] = @@public_fields
     # options[:include] = [ :reporter ]
     # options[:except] = [ ]
-    options[:methods] = [ :media_link, :class, :display_text, :display_html, :score, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) 
+    options[:methods] = [ :media_url, :class, :display_text, :display_html, :score, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) 
     # options[:additional] = {:page => options[:page] }
     # ar_to_json(options)
     (options[:only] + options[:methods]).inject({}) {|result,field| result[field] = self.send(field); result }.to_json
   end    
 
-  def media_link
+  def media_url
     "#{self.url}" if self.respond_to?(:url)
   end
   
@@ -138,7 +138,8 @@ class Report < ActiveRecord::Base
   include ActionView::Helpers::DateHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::TagHelper
-      
+  include ReportHelper
+  
   # Formatted report body text
   def display_text
     auto_link_urls(self.body || "", :target => '_new') { |linktext| truncate(linktext, :length => 30) }
@@ -155,6 +156,7 @@ class Report < ActiveRecord::Base
     html << %Q{<div class="balloon_body"><span class="author" id="screen_name">#{self.reporter.display_name}</span>: }
     linked_text = auto_link_urls(self.body || "", :target => '_new') { |linktext| truncate(linktext, :length => 30) }
     html << %Q{<span class="entry-title">#{linked_text}</span><br />}
+    html << media_link(self)
 
     html << "<br /><div class='whenwhere'>"
     if self.reporter.is_a?(TwitterReporter)
