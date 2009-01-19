@@ -2,9 +2,11 @@ class ReportsController < ApplicationController
   protect_from_forgery :except => [:create]
   before_filter :filter_from_params, :only => [ :index, :reload, :map, :chart, :stats ]
   before_filter :login_required, :except => [:create, :index, :show, :chart, :stats, :map, :reload]
-    
+  caches_page [:index, :show], :if => proc{|controller| logger.info("FORMAT: #{!controller.request.parameters["format"].blank?}"); (!controller.request.parameters["format"].blank? && controller.request.parameters["format"] != "html") && controller.request.env["QUERY_STRING"].blank?}
+  
   # GET /reports
   def index
+    logger.info "Calling Index: #{params.inspect}"
     respond_to do |format|
       format.html do
         @live_feed = (params[:live] == "1")
@@ -22,7 +24,9 @@ class ReportsController < ApplicationController
         end
       end
       format.json do 
+        logger.info "Testing"
         @reports = Report.with_location.find_with_filters(@filters)
+        logger.info "Reports: #{@reports.length}"
         render :json => @reports.to_json, :callback => params[:callback]
       end      
       format.atom do
