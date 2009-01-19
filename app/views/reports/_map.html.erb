@@ -19,7 +19,7 @@
 <div id="update_status" style="display:none"></div>
 <script type="text/javascript" charset="utf-8">
     jQuery.noConflict();
-    var view_urls = {us:{url:"<%= formatted_reports_url(:format => 'json', :page => 1, :per_page => 200, :callback => 'updateJSON').gsub(/&amp;/,'&') %>",filters: ""}, dc: {url:"<%= formatted_reports_url(:format => 'json', :state => 'DC', :page => 1, :per_page => 200, :callback => 'updateJSON').gsub(/&amp;/,'&') %>", filters: "" }};
+    var view_urls = {us:{url:"<%= cached_reports_url(:format => 'json', :page => 1).gsub(/&amp;/,'&') %>",filters: ""}, dc: {url:"<%= cached_reports_state_url(:format => 'json', :state => 'DC', :page => 1).gsub(/&amp;/,'&') %>", filters: "" }};
     function initalizeMap() {
       filters = "<%= @filters.collect{|k,v| "#{k}=#{v}"}.join("&") %>";
       state = "<%= @filters[:state] || '' %>";
