@@ -78,10 +78,10 @@ module ReportHelper
     when /AudioReport/
       return "<embed src='#{report.url}' width='100' height='20' AUTOPLAY='false'/>"
     when /PhotoReport/
-      report.link_url ? "<a href='#{report.link_url}' class='imageLink'><img src='#{report.url}' width='180'/></a>" :
-        "<a href='#{report.large_url}' class='imageLink'><img src='#{report.url}' width='180'/></a>"
+      report.link_url ? "<a href='#{report.link_url}' class='imageLink' target='new'><img src='#{report.url}' width='180'/></a>" :
+        "<a href='#{report.large_url}' class='imageLink' target='new'><img src='#{report.url}' width='180'/></a>"
     when /VideoReport/
-      report.link_url ? "<a href='#{report.link_url}' class='imageLink'><img src='#{report.url}' width='180'/></a>" : "<img src='#{report.url}' width='180'/>"
+      report.link_url ? "<a href='#{report.link_url}' class='imageLink' target='new'><img src='#{report.url}' width='180'/></a>" : "<img src='#{report.url}' width='180'/>"
     else
       return ""
     end
