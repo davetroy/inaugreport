@@ -15,7 +15,7 @@ SERVER_URL = PLATFORM_CONFIG["url"]
 APP_TAG = PLATFORM_CONFIG["tag"]
 APP_NAME = PLATFORM_CONFIG["name"]
 
-# Block users who like our inaug09 are doing aggregation
+# Block users who, like our inaug09, are doing aggregation
 BLOCKED_TWITTER_USERS = %w(inaug_rss inaug inaug09 pissonobama LGBTtweets)
 
 require 'digest/sha1' #for the md5 session key below

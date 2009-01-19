@@ -20,5 +20,6 @@ config.action_controller.perform_caching             = true
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
 
+IMAGEMAGICK_CONVERT = "/usr/bin/convert"
 AUDIO_UPLOAD_PATH = "/home/inaugreport/files"
 GMAPS_API_KEY = "ABQIAAAAS-9BXlmhAxzk5tMQ6009tBSTo-lUxtlWjZQHujg8wiGCGX5h0hQO6yJj9_XWBlUBJq28dmQiypmbCg"
