@@ -14,7 +14,9 @@ PLATFORM_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/platform.yml")[RAILS_ENV]
 SERVER_URL = PLATFORM_CONFIG["url"]
 APP_TAG = PLATFORM_CONFIG["tag"]
 APP_NAME = PLATFORM_CONFIG["name"]
-BLOCKED_TWITTER_USERS = %w(inaug_rss inaug inaug09 pissonobama)
+
+# Block users who like our inaug09 are doing aggregation
+BLOCKED_TWITTER_USERS = %w(inaug_rss inaug inaug09 pissonobama LGBTtweets)
 
 require 'digest/sha1' #for the md5 session key below
 
