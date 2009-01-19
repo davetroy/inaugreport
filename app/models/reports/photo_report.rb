@@ -1,6 +1,8 @@
 class PhotoReport < Report
   before_create :make_thumbnails
   
+  named_scope :stored_locally, :conditions => '(reports.source IS NULL OR LEFT(reports.source,1)="/")'
+  
   THUMBNAIL_SIZE = 180
   
   def filename(size=nil)
@@ -13,9 +15,9 @@ class PhotoReport < Report
     source_url || reporter.photo_urlformat(uniqueid, 's')
   end
 
-  # Makes thumbnails if ImageMagick is available
+  # Makes thumbnails if ImageMagick is available and we have local storage
   def make_thumbnails
-    return true unless defined?(IMAGEMAGICK_CONVERT)
+    return true unless defined?(IMAGEMAGICK_CONVERT) && File.exist?(filename)
     system("#{IMAGEMAGICK_CONVERT} -resize #{THUMBNAIL_SIZE} #{filename} #{filename('s')}")
     true
   end
