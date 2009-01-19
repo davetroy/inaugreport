@@ -13,7 +13,7 @@ module ActionController
         #   after_filter { |c| c.cache_page if actions.include?(c.action_name) }
         # end
         def caches_page(actions, options={})
-          logger.info "CACHING PAGE" #: #{request.env["QUERY_STRING"]}
+          # logger.info "CACHING PAGE" #: #{request.env["QUERY_STRING"]}
           return unless perform_caching
           actions = actions.map(&:to_s)
           conditions = options[:if] || nil 

@@ -2,11 +2,10 @@ class ReportsController < ApplicationController
   protect_from_forgery :except => [:create]
   before_filter :filter_from_params, :only => [ :index, :reload, :map, :chart, :stats ]
   before_filter :login_required, :except => [:create, :index, :show, :chart, :stats, :map, :reload]
-  caches_page [:index, :show], :if => proc{|controller| logger.info("FORMAT: #{!controller.request.parameters["format"].blank?}"); (!controller.request.parameters["format"].blank? && controller.request.parameters["format"] != "html") && controller.request.env["QUERY_STRING"].blank?}
+  caches_page [:index, :show], :if => proc{|controller| (!controller.request.parameters["format"].blank? && controller.request.parameters["format"] != "html") && controller.request.env["QUERY_STRING"].blank?}
   
   # GET /reports
   def index
-    logger.info "Calling Index: #{params.inspect}"
     respond_to do |format|
       format.html do
         @live_feed = (params[:live] == "1")
