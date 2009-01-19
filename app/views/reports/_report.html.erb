@@ -1,4 +1,5 @@
 <div id="<%= dom_id(report) %>" class="hentry report">
+  <%= report.title+'<br/>' if report.title %>
 	<% if report.source=="Twitter" %>
 	<%= link_to image_tag(report.reporter.icon, :class => "profile", :target=>"new"), report.reporter.profile %>
 	<% else %>
@@ -9,7 +10,7 @@
   	<a href="http://twitter.com/<%=report.reporter.screen_name%>/statuses/<%=report.uniqueid%>"><%=time_ago_in_words(report.created_at)%> ago</a> 
 	<% else %>  	
     <abbr class="published" title="<%= report.created_at.iso8601 %>"><%=time_ago_in_words(report.created_at)%></abbr> ago
-	<% end %>  	
+	<% end %>
     <%="in <span class=\"adr\">#{report.location.address}</span>" if report.location%>
     via <%=report.reporter.source_name%><br/>
 	<%= defined?(media) ? media : "" %>
