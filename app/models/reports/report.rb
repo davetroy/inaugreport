@@ -134,17 +134,16 @@ class Report < ActiveRecord::Base
       :conditions => conditions,
       :include => [:location, :reporter])
   end
-      
-  # Subsititute text for reports that have none
-  def display_text
-    return self.body unless self.body.blank?
-    [score        ? "score #{score}" : nil ].compact.join(', ')    
-  end
-  
 
   include ActionView::Helpers::DateHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::TagHelper
+      
+  # Formatted report body text
+  def display_text
+    auto_link_urls(self.body || "", :target => '_new') { |linktext| truncate(linktext, :length => 30) }
+  end
+  
   def display_html
     html = '<div class="balloon">'
 
@@ -153,18 +152,7 @@ class Report < ActiveRecord::Base
     else
       html << %Q{<br /><img src="#{self.reporter.icon}" class="profile" />}
     end
-    # if(self.score.nil?)
-    #   score_icon = "/images/score_none.png"
-    # elsif(self.score <= 30)
-    #   score_icon = "/images/score_bad.png"
-    # elsif (self.score <= 70)
-    #   score_icon = "/images/score_medium.png"
-    # else
-    #   score_icon = "/images/score_good.png"
-    # end
-    # 
-    # html << %Q{<img class="score_icon" style="clear:left;" src="#{score_icon}" />}
-    html << %Q{<div class="balloon_body"><span class="author" id="screen_name">#{self.reporter.name}</span>: }
+    html << %Q{<div class="balloon_body"><span class="author" id="screen_name">#{self.reporter.display_name}</span>: }
     linked_text = auto_link_urls(self.body || "", :target => '_new') { |linktext| truncate(linktext, :length => 30) }
     html << %Q{<span class="entry-title">#{linked_text}</span><br />}
     # html << [score        ? "score: #{score}" : nil ].compact.join('<br />')    
