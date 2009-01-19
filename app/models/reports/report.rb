@@ -94,7 +94,22 @@ class Report < ActiveRecord::Base
     "#{self.url}" if self.respond_to?(:url)
   end
   
+  # Primary method to get reports with any of the following filters:
+  # :q - generic search query term
+  # :dtstart, :dtend - Time span begin and end to search
+  # :type - report type (video, audio, photo, text)
+  # :name - reporter name
+  # :state - two-letter code for state (e.g. NY, DC, PA)
   def self.find_with_filters(filters = {})
+    # If we're searching a join table (filters, reporters) do a recursive search
+    if filters.include?(:state) && !filters[:state].blank?
+      filtered = Filter.find_by_name(US_STATES[filters.delete(:state)])
+      filtered.reports.find_with_filters(filters) if filtered      
+    elsif filters.include?(:name) && !filters[:name].blank?
+      reporter = Reporter.find_by_screen_name(filters.delete(:name))
+      reporter.reports.find_with_filters(filters) if reporter
+    end
+    
     conditions = ["",filters]
     if filters.include?(:dtstart) && !filters[:dtstart].blank?
       conditions[0] << "created_at >= :dtstart"
@@ -114,21 +129,10 @@ class Report < ActiveRecord::Base
       filters[:q] = "%#{filters[:q]}%"
     end
     
-    if filters.include?(:state) && !filters[:state].blank?
-      filtered = Filter.find_by_name(US_STATES[filters[:state]])
-      filtered.reports.paginate( :page => filters[:page] || 1, :per_page => filters[:per_page] || 10, 
-                        :order => 'created_at DESC') if filtered
-    elsif filters.include?(:name) && !filters[:name].blank?
-      reporter = Reporter.find_by_screen_name(filters[:name])
-      reporter.reports.paginate( :page => filters[:page] || 1, :per_page => filters[:per_page] || 10, 
-                        :order => 'created_at DESC') if reporter
-    else
-      # TODO put in logic here for doing filtering by appropriate parameters
-      Report.paginate( :page => filters[:page] || 1, :per_page => filters[:per_page] || 10, 
-                        :order => 'created_at DESC',
-                        :conditions => conditions,
-                        :include => [:location, :reporter])
-    end
+    Report.paginate( :page => filters[:page] || 1, :per_page => filters[:per_page] || 10, 
+      :order => 'created_at DESC',
+      :conditions => conditions,
+      :include => [:location, :reporter])
   end
       
   # Subsititute text for reports that have none
