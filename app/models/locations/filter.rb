@@ -16,7 +16,4 @@ class Filter < ActiveRecord::Base
    end.compact.join(',')
   end
   
-  def self.get
-    find(:all).map { |f| {:id => f.id, :name => f.name } }
-  end
 end
