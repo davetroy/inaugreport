@@ -138,7 +138,21 @@ class Report < ActiveRecord::Base
   include ActionView::Helpers::DateHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::TagHelper
-  include ReportHelper
+  
+  # Yes, we know all this view code should not be in here; move along
+  def media_link
+    case self.class.name
+    when /AudioReport/
+      return "<embed src='#{self.url}' width='100' height='20' AUTOPLAY='false'/>"
+    when /PhotoReport/
+      self.link_url ? "<a href='#{self.link_url}' class='imageLink' target='new'><img src='#{self.url}' width='180'/></a>" :
+        "<a href='#{self.large_url}' class='imageLink' target='new'><img src='#{self.url}' width='180'/></a>"
+    when /VideoReport/
+      self.link_url ? "<a href='#{self.link_url}' class='imageLink' target='new'><img src='#{self.url}' width='180'/></a>" : "<img src='#{self.url}' width='180'/>"
+    else
+      return ""
+    end
+  end
   
   # Formatted report body text
   def display_text
@@ -156,7 +170,7 @@ class Report < ActiveRecord::Base
     html << %Q{<div class="balloon_body"><span class="author" id="screen_name">#{self.reporter.display_name}</span>: }
     linked_text = auto_link_urls(self.body || "", :target => '_new') { |linktext| truncate(linktext, :length => 30) }
     html << %Q{<span class="entry-title">#{linked_text}</span><br />}
-    html << media_link(self)
+    html << self.media_link
 
     html << "<br /><div class='whenwhere'>"
     if self.reporter.is_a?(TwitterReporter)

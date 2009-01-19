@@ -61,20 +61,6 @@ module ReportHelper
     select(:filter, :state, US_STATES)
   end
   
-  def media_link(report)
-    case report.class.name
-    when /AudioReport/
-      return "<embed src='#{report.url}' width='100' height='20' AUTOPLAY='false'/>"
-    when /PhotoReport/
-      report.link_url ? "<a href='#{report.link_url}' class='imageLink' target='new'><img src='#{report.url}' width='180'/></a>" :
-        "<a href='#{report.large_url}' class='imageLink' target='new'><img src='#{report.url}' width='180'/></a>"
-    when /VideoReport/
-      report.link_url ? "<a href='#{report.link_url}' class='imageLink' target='new'><img src='#{report.url}' width='180'/></a>" : "<img src='#{report.url}' width='180'/>"
-    else
-      return ""
-    end
-  end
-  
   def bumpspark2( results )
      white, red, grey = 0, 16, 32
      padding = 3 - ( results.length - 1 ) % 4
