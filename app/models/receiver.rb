@@ -38,6 +38,7 @@ class Receiver < ActionMailer::Base
     filename = "#{report.uniqueid}.#{part.disposition_param('filename')}"
     File.open("#{AUDIO_UPLOAD_PATH}/#{filename}", 'w') { |f| f.write part.body }
     report.update_attributes(:source_url => "#{urlpath}/#{filename}")
+    report.make_thumbnails if report.respond_to?(:make_thumbnails)
   rescue
     nil
   end

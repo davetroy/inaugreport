@@ -155,7 +155,7 @@ class Report < ActiveRecord::Base
     html << %Q{<div class="balloon_body"><span class="author" id="screen_name">#{self.reporter.display_name}</span>: }
     linked_text = auto_link_urls(self.body || "", :target => '_new') { |linktext| truncate(linktext, :length => 30) }
     html << %Q{<span class="entry-title">#{linked_text}</span><br />}
-    # html << [score        ? "score: #{score}" : nil ].compact.join('<br />')    
+    html << media_link(self)
 
     html << "<br /><div class='whenwhere'>"
     if self.reporter.is_a?(TwitterReporter)

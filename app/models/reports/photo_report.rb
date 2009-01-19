@@ -1,5 +1,4 @@
 class PhotoReport < Report
-  before_create :make_thumbnails
   
   named_scope :stored_locally, :conditions => '(reports.source_url IS NULL OR LEFT(reports.source_url,1)="/")'
   
