@@ -28,9 +28,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.kml_feed 'feeds/:count.kml', :controller => "reports", :action => "index", :format => :kml
   # put in KML and JSON generic parameters to be cached
-  map.cached_feed 'reports/page/:page.:format', :controller => "reports", :action => "index", :live => "1", :callback => "updateJSON", :count => 200
-  map.cached_count_feed 'reports/count/:count.:format', :controller => "reports", :action => "index", :live => "1", :callback => "updateJSON"
-  map.cached_state_feed 'reports/state/:state/page/:page.:format', :controller => "reports", :action => "index", :live => "1", :callback => "updateJSON", :count => 200
+  map.cached_reports 'reports/page/:page.:format', :controller => "reports", :action => "index", :live => "1", :callback => "updateJSON", :count => 200
+  map.cached_reports_count 'reports/count/:count.:format', :controller => "reports", :action => "index", :live => "1", :callback => "updateJSON"
+  map.cached_reports_state 'reports/state/:state/page/:page.:format', :controller => "reports", :action => "index", :live => "1", :callback => "updateJSON", :count => 200
 
   map.resources :reports, 
     :collection => {

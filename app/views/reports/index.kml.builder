@@ -11,7 +11,7 @@ xml.kml("xmlns" => "http://earth.google.com/kml/2.2",
     xml.tag! "NetworkLink" do
       xml.name "##{APP_TAG} live updating"
       xml.tag! "Link" do
-        xml.href cached_count_feed_url(:count => 4000, :format => :kml) #"#{SERVER_URL}/reports/count/4000.kml"
+        xml.href cached_reports_count_url(:count => 4000, :format => :kml) #"#{SERVER_URL}/reports/count/4000.kml"
         xml.refreshMode "onInterval"
         xml.refreshInterval 240
         xml.viewRefreshMode "onInterval"
