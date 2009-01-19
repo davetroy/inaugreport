@@ -14,6 +14,10 @@ class PhotoReport < Report
   def url
     source_url || reporter.photo_urlformat(uniqueid, 's')
   end
+  
+  def large_url
+    reporter.photo_urlformat(uniqueid)
+  end
 
   def is_local?
     source_url.nil? || source_url.first == '/'
