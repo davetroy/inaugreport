@@ -107,13 +107,15 @@ h1 small {
 
 /* __________________________( Footer ) ___ */
 #footer {
-  position: absolute;
+/*  position: absolute;
   bottom: 0;
   left: 0;
+*/
   width: 100%;
   clear:both;
   background: #e1e1e1;
   color: #666;
+  top: 700px;
 }
 .footer {
   font-size: 10px;
