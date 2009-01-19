@@ -1,7 +1,7 @@
 class PhotoReport < Report
   before_create :make_thumbnails
   
-  named_scope :stored_locally, :conditions => '(reports.source IS NULL OR LEFT(reports.source,1)="/")'
+  named_scope :stored_locally, :conditions => '(reports.source_url IS NULL OR LEFT(reports.source_url,1)="/")'
   
   THUMBNAIL_SIZE = 180
   
@@ -16,7 +16,7 @@ class PhotoReport < Report
   end
 
   def is_local?
-    source.nil? || source.first == '/'
+    source_url.nil? || source_url.first == '/'
   end
   
   # Makes thumbnails if ImageMagick is available and we have local storage
