@@ -15,9 +15,13 @@ class PhotoReport < Report
     source_url || reporter.photo_urlformat(uniqueid, 's')
   end
 
+  def is_local?
+    source.nil? || source.first == '/'
+  end
+  
   # Makes thumbnails if ImageMagick is available and we have local storage
   def make_thumbnails
-    return true unless defined?(IMAGEMAGICK_CONVERT) && File.exist?(filename)
+    return true unless defined?(IMAGEMAGICK_CONVERT) && is_local?
     system("#{IMAGEMAGICK_CONVERT} -resize #{THUMBNAIL_SIZE} #{filename} #{filename('s')}")
     true
   end
