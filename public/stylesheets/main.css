@@ -54,7 +54,7 @@ h1 small {
 
 
 /* __________________________( Patterns )_ */
-.fl_r {overflow: auto; height: 1%;}  /* float left/right */
+.fl_r {overflow: none; height: 1%;}  /* float left/right */
 .fl_r .l, .fl_r .ll { float: left; display: inline;}
 .fl_r .r, .fl_r .rr { float: right; display: inline;}
 
