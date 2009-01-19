@@ -25,12 +25,12 @@ class Report < ActiveRecord::Base
   named_scope :with_score, :conditions => 'reports.score IS NOT NULL'
   named_scope :assigned, lambda { |user| 
     { :conditions => ['reviewer_id = ? AND reviewed_at IS NULL AND assigned_at > UTC_TIMESTAMP - INTERVAL 10 MINUTE', user.id],
-      :order => 'created_at DESC' }
+      :order => 'reports.created_at DESC' }
   }
   # @reports = Report.unassigned.assign(@current_user) &tc...
   named_scope( :unassigned, 
     :limit => 10, 
-    :order => 'created_at DESC',
+    :order => 'reports.created_at DESC',
     :conditions => 'reviewed_at IS NULL AND (reviewer_id IS NULL OR assigned_at < UTC_TIMESTAMP - INTERVAL 10 MINUTE)' 
   ) do
     def assign(reviewer)
@@ -130,7 +130,7 @@ class Report < ActiveRecord::Base
     end
     
     Report.paginate( :page => filters[:page] || 1, :per_page => filters[:per_page] || 10, 
-      :order => 'created_at DESC',
+      :order => 'reports.created_at DESC',
       :conditions => conditions,
       :include => [:location, :reporter])
   end
