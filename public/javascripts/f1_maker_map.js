@@ -84,7 +84,7 @@ var MapList = {
       
       var region_to_load = id_from_class_pair(el, "view_state");
 
-      updateMap(view_urls[region_to_load]["url"]);
+      updateMap(view_urls[region_to_load]["url"], null, region_to_load);
     }
   },
   

@@ -104,10 +104,10 @@ class Report < ActiveRecord::Base
     # If we're searching a join table (filters, reporters) do a recursive search
     if filters.include?(:state) && !filters[:state].blank?
       filtered = Filter.find_by_name(US_STATES[filters.delete(:state)])
-      filtered.reports.find_with_filters(filters) if filtered      
+      return filtered.reports.find_with_filters(filters) if filtered
     elsif filters.include?(:name) && !filters[:name].blank?
       reporter = Reporter.find_by_screen_name(filters.delete(:name))
-      reporter.reports.find_with_filters(filters) if reporter
+      return reporter.reports.find_with_filters(filters) if reporter
     end
     
     conditions = ["",filters]
@@ -165,7 +165,7 @@ class Report < ActiveRecord::Base
     # 
     # html << %Q{<img class="score_icon" style="clear:left;" src="#{score_icon}" />}
     html << %Q{<div class="balloon_body"><span class="author" id="screen_name">#{self.reporter.name}</span>: }
-    linked_text = auto_link_urls(self.body || "", :target => '_new') { |linktext| truncate(linktext, 30) }
+    linked_text = auto_link_urls(self.body || "", :target => '_new') { |linktext| truncate(linktext, :length => 30) }
     html << %Q{<span class="entry-title">#{linked_text}</span><br />}
     # html << [score        ? "score: #{score}" : nil ].compact.join('<br />')    
 

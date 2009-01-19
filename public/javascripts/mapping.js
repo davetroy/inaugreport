@@ -79,10 +79,10 @@ function updateState(state, page) {
         jQuery.getJSON("/feeds/state/"+state+"/" + page +".json", "");
     return false;
 }
-function updateMap(url,map_filter) {
+function updateMap(url,map_filter,view_state) {
     var current_filter = "";
     hideMessage();
-
+    state = view_state;
     if(map_filter != "" || map_filter != null) {
         mapstraction.removeAllMarkers();
         fadeMap();
@@ -109,8 +109,13 @@ function updateJSON(response) {
     var num_markers = mapstraction.addJSON(response);
     if(num_markers <= 0)
         showMessage("Sorry - no reports with this filter.");
-    
-    mapstraction.autoCenterAndZoom();
+
+    if( (state != null || state != "") && state != "us" )
+      mapstraction.autoCenterAndZoom();
+    else {
+      var myPoint = new LatLonPoint(38, -100);
+      mapstraction.setCenterAndZoom(myPoint, 4);      
+    }
     
     last_updated = new Date().toISO8601String();
     jQuery("#last_updated").text(last_updated);    
