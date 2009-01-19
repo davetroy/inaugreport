@@ -77,7 +77,6 @@ h1 small {
 #content {
   position: relative;
   clear:right;
-  min-height: 700px;
 }
 .content {
   clear:both;
@@ -108,7 +107,11 @@ h1 small {
 
 /* __________________________( Footer ) ___ */
 #footer {
-  clear: both;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  clear:both;
   background: #e1e1e1;
   color: #666;
 }
@@ -162,3 +165,4 @@ h1 small {
 #panel_explore li a:hover {
   background-color: #fcffcd;
 }
+
