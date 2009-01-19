@@ -80,7 +80,7 @@ var MapList = {
     if(div != 'reports_reports') {
       $('reports_reports').hide();
       if(!map_initialized)
-        initalizeMap();
+        initializeMap();
       
       var region_to_load = id_from_class_pair(el, "view_state");
 

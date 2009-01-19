@@ -186,6 +186,7 @@ class ReportsController < ApplicationController
   end
   
   def map  
+    render  :layout => "embed"
   end
   
   def chart 
