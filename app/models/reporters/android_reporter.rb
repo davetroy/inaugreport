@@ -14,8 +14,8 @@ class AndroidReporter < Reporter
 
   def display_name; name; end
 
-  def photo_urlformat(uniqueid)
-    "/photos/#{uniqueid}.#{photo_filetype}"
+  def photo_urlformat(uniqueid,size=nil)
+    "/photos/#{uniqueid}#{size}.#{photo_filetype}"
   end
   
   private

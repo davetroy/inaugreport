@@ -61,44 +61,6 @@ module ReportHelper
     select(:filter, :state, US_STATES)
   end
   
-  # Use natural language scan to suggest intended location names
-  # Here are some test cases to use against this method
-  def suggest_location(text)
-    # Use NL_LOCATION_PATTERNS for this (see config/initializers/votereport.rb)
-    # assert_equal "Boulder, CO, USA", @twitter_reporter.reports.create(:text => 'taking forever in Boulder CO').location.address
-    # assert_equal "Boulder, CO, USA", @twitter_reporter.reports.create(:text => 'long lines in courthouse at Boulder, CO').location.address
-    # false positive matches - these cases need addressed:
-    # assert_equal "Los Angeles, CA, USA", @twitter_reporter.reports.create(:text => 'waited at the poll for 1hr in LA, now in a bad mood').location.address
-    # assert_equal "Annapolis, MD, USA", @twitter_reporter.reports.create(:text => 'all day in Annapolis at the school they told me I could not vote here').location.address
-    # assert_equal "San Francisco, CA, USA", @twitter_reporter.reports.create(:text => 'waiting in San Francisco at the poll in line forever').location.address
-  end
-  
-  def media_link(report)
-    case report.class.name
-    when /AudioReport/
-      return "<embed src='#{report.url}' width='100' height='20' AUTOPLAY='false'/>"
-    when /PhotoReport/
-      report.link_url ? "<a href='#{report.link_url}' class='imageLink'><img src='#{report.url}' width='180'/></a>" : "<img src='#{report.url}' width='180'/>"
-    when /VideoReport/
-      report.link_url ? "<a href='#{report.link_url}' class='imageLink'><img src='#{report.url}' width='180'/></a>" : "<img src='#{report.url}' width='180'/>"
-    else
-      return ""
-    end
-  end
-  
-  def score_icon(score)
-    if(score.nil?)
-      score_icon = "score_none.png"
-    elsif(score <= 30)
-      score_icon = "score_bad.png"
-    elsif (score <= 70)
-      score_icon = "score_medium.png"
-    else
-      score_icon = "score_good.png"
-    end    
-    "#{SERVER_URL}/images/#{score_icon}"
-  end
-  
   def bumpspark2( results )
      white, red, grey = 0, 16, 32
      padding = 3 - ( results.length - 1 ) % 4

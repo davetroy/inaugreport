@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <%= stylesheet_link_tag 'main','reports' %>
+  <%= yield :style %>
+  <%= yield :head %>
+  <title><%= APP_NAME %></title>
+  <%= javascript_include_tag 'prototype','effects','application' %>
+  <%= yield :javascript %>
+</head>
+<body>
+  <%= yield  %>
+
+  <div id='footer' style="top: 90%;">
+    <div class='footer fl_r' style=" overflow:none; height: 20px">
+      <div class='l'>&nbsp;
+      </div>
+      <div class='r' style="margin-left:0">
+        <a href="http://npr.org">NPR</a> |
+        <a href="http://cbsnews.com">CBS News</a> |
+        <a href="http://www.american.edu">American University</a> |
+        <a href="http://twittervision.com">Twittervision</a> |
+        <a href="http://geocommons.com">GeoCommons</a> |
+        <a href="http://www.zerionconsulting.com/mobile.html">Zerion</a>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-7010869-1");
+    pageTracker._trackPageview();
+    } catch(err) {}</script>    
+  </body>
+  </html>

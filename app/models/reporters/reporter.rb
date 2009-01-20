@@ -50,6 +50,7 @@ class Reporter < ActiveRecord::Base
     end
     if uploadedfile = info[:uploaded]
       File.open(report.filename, 'w') { |f| f.write uploadedfile.read }
+      report.make_thumbnails
     end
     "OK"
   rescue => e

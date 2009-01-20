@@ -54,7 +54,7 @@ h1 small {
 
 
 /* __________________________( Patterns )_ */
-.fl_r {overflow: auto; height: 1%;}  /* float left/right */
+.fl_r {overflow: none; height: 1%;}  /* float left/right */
 .fl_r .l, .fl_r .ll { float: left; display: inline;}
 .fl_r .r, .fl_r .rr { float: right; display: inline;}
 
@@ -77,7 +77,6 @@ h1 small {
 #content {
   position: relative;
   clear:right;
-  min-height: 700px;
 }
 .content {
   clear:both;
@@ -108,11 +107,15 @@ h1 small {
 
 /* __________________________( Footer ) ___ */
 #footer {
-  clear: both;
+  position: absolute;
+  width: 100%;
+  clear:both;
   background: #e1e1e1;
   color: #666;
+  top: 750px;
 }
 .footer {
+  background: #e1e1e1;
   font-size: 10px;
   height: 25px;
   padding: 5px 5px;
@@ -162,3 +165,4 @@ h1 small {
 #panel_explore li a:hover {
   background-color: #fcffcd;
 }
+

@@ -21,16 +21,16 @@ class Report < ActiveRecord::Base
   after_create :check_uniqueid, :assign_filters, :auto_review
   before_save { |record| record.location_id = record.reporter.location_id if record.location_id.nil? }
   
-  named_scope :with_location, :conditions => 'location_id IS NOT NULL'
-  named_scope :with_score, :conditions => 'score IS NOT NULL'
+  named_scope :with_location, :conditions => 'reports.location_id IS NOT NULL'
+  named_scope :with_score, :conditions => 'reports.score IS NOT NULL'
   named_scope :assigned, lambda { |user| 
     { :conditions => ['reviewer_id = ? AND reviewed_at IS NULL AND assigned_at > UTC_TIMESTAMP - INTERVAL 10 MINUTE', user.id],
-      :order => 'created_at DESC' }
+      :order => 'reports.created_at DESC' }
   }
   # @reports = Report.unassigned.assign(@current_user) &tc...
   named_scope( :unassigned, 
     :limit => 10, 
-    :order => 'created_at DESC',
+    :order => 'reports.created_at DESC',
     :conditions => 'reviewed_at IS NULL AND (reviewer_id IS NULL OR assigned_at < UTC_TIMESTAMP - INTERVAL 10 MINUTE)' 
   ) do
     def assign(reviewer)
@@ -84,17 +84,32 @@ class Report < ActiveRecord::Base
     options[:only] = @@public_fields
     # options[:include] = [ :reporter ]
     # options[:except] = [ ]
-    options[:methods] = [ :media_link, :class, :display_text, :display_html, :score, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) 
+    options[:methods] = [ :media_url, :class, :display_text, :display_html, :score, :name, :icon, :reporter, :location ].concat(options[:methods]||[]) 
     # options[:additional] = {:page => options[:page] }
     # ar_to_json(options)
     (options[:only] + options[:methods]).inject({}) {|result,field| result[field] = self.send(field); result }.to_json
   end    
 
-  def media_link
+  def media_url
     "#{self.url}" if self.respond_to?(:url)
   end
   
+  # Primary method to get reports with any of the following filters:
+  # :q - generic search query term
+  # :dtstart, :dtend - Time span begin and end to search
+  # :type - report type (video, audio, photo, text)
+  # :name - reporter name
+  # :state - two-letter code for state (e.g. NY, DC, PA)
   def self.find_with_filters(filters = {})
+    # If we're searching a join table (filters, reporters) do a recursive search
+    if filters.include?(:state) && !filters[:state].blank?
+      filtered = Filter.find_by_name(US_STATES[filters.delete(:state)])
+      return filtered.reports.find_with_filters(filters) if filtered
+    elsif filters.include?(:name) && !filters[:name].blank?
+      reporter = Reporter.find_by_screen_name(filters.delete(:name))
+      return reporter.reports.find_with_filters(filters) if reporter
+    end
+    
     conditions = ["",filters]
     if filters.include?(:dtstart) && !filters[:dtstart].blank?
       conditions[0] << "created_at >= :dtstart"
@@ -114,33 +129,36 @@ class Report < ActiveRecord::Base
       filters[:q] = "%#{filters[:q]}%"
     end
     
-    if filters.include?(:state) && !filters[:state].blank?
-      filtered = Filter.find_by_name(US_STATES[filters[:state]])
-      filtered.reports.paginate( :page => filters[:page] || 1, :per_page => filters[:per_page] || 10, 
-                        :order => 'created_at DESC') if filtered
-    elsif filters.include?(:name) && !filters[:name].blank?
-      reporter = Reporter.find_by_screen_name(filters[:name])
-      reporter.reports.paginate( :page => filters[:page] || 1, :per_page => filters[:per_page] || 10, 
-                        :order => 'created_at DESC') if reporter
-    else
-      # TODO put in logic here for doing filtering by appropriate parameters
-      Report.paginate( :page => filters[:page] || 1, :per_page => filters[:per_page] || 10, 
-                        :order => 'created_at DESC',
-                        :conditions => conditions,
-                        :include => [:location, :reporter])
-    end
+    Report.paginate( :page => filters[:page] || 1, :per_page => filters[:per_page] || 10, 
+      :order => 'reports.created_at DESC',
+      :conditions => conditions,
+      :include => [:location, :reporter])
   end
-      
-  # Subsititute text for reports that have none
-  def display_text
-    return self.body unless self.body.blank?
-    [score        ? "score #{score}" : nil ].compact.join(', ')    
-  end
-  
 
   include ActionView::Helpers::DateHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::TagHelper
+  
+  # Yes, we know all this view code should not be in here; move along
+  def media_link
+    case self.class.name
+    when /AudioReport/
+      return "<embed src='#{self.url}' width='100' height='20' AUTOPLAY='false'/>"
+    when /PhotoReport/
+      self.link_url ? "<a href='#{self.link_url}' class='imageLink' target='new'><img src='#{self.url}' width='180'/></a>" :
+        "<a href='#{self.large_url}' class='imageLink' target='new'><img src='#{self.url}' width='180'/></a>"
+    when /VideoReport/
+      self.link_url ? "<a href='#{self.link_url}' class='imageLink' target='new'><img src='#{self.url}' width='180'/></a>" : "<img src='#{self.url}' width='180'/>"
+    else
+      return ""
+    end
+  end
+  
+  # Formatted report body text
+  def display_text
+    auto_link_urls(self.body || "", :target => '_new') { |linktext| truncate(linktext, :length => 30) }
+  end
+  
   def display_html
     html = '<div class="balloon">'
 
@@ -149,21 +167,10 @@ class Report < ActiveRecord::Base
     else
       html << %Q{<br /><img src="#{self.reporter.icon}" class="profile" />}
     end
-    # if(self.score.nil?)
-    #   score_icon = "/images/score_none.png"
-    # elsif(self.score <= 30)
-    #   score_icon = "/images/score_bad.png"
-    # elsif (self.score <= 70)
-    #   score_icon = "/images/score_medium.png"
-    # else
-    #   score_icon = "/images/score_good.png"
-    # end
-    # 
-    # html << %Q{<img class="score_icon" style="clear:left;" src="#{score_icon}" />}
-    html << %Q{<div class="balloon_body"><span class="author" id="screen_name">#{self.reporter.name}</span>: }
-    linked_text = auto_link_urls(self.body || "", :target => '_new') { |linktext| truncate(linktext, 30) }
+    html << %Q{<div class="balloon_body"><span class="author" id="screen_name">#{self.reporter.display_name}</span>: }
+    linked_text = auto_link_urls(self.body || "", :target => '_new') { |linktext| truncate(linktext, :length => 30) }
     html << %Q{<span class="entry-title">#{linked_text}</span><br />}
-    # html << [score        ? "score: #{score}" : nil ].compact.join('<br />')    
+    html << self.media_link
 
     html << "<br /><div class='whenwhere'>"
     if self.reporter.is_a?(TwitterReporter)

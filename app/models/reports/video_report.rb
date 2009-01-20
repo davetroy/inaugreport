@@ -1,6 +1,6 @@
 class VideoReport < Report
   def url
-    source_url || reporter.photo_urlformat(uniqueid)
+    source_url
   end
   
   def retweet_as
