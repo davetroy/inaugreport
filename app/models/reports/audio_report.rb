@@ -6,4 +6,8 @@ class AudioReport < Report
   def url
     "#{SERVER_URL}/audio/#{uniqueid}.#{reporter.audio_filetype}"
   end
+  
+  def retweet_as
+    "#{reporter.displayname}: #{title}"
+  end
 end
