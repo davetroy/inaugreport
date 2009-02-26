@@ -114,6 +114,7 @@ class Report < ActiveRecord::Base
     if filters.include?(:dtstart) && !filters[:dtstart].blank?
       conditions[0] << "created_at >= :dtstart"
     end
+    filters[:dtend] = '2009-1-27' if filters[:dtend].blank?
     if filters.include?(:dtend) && !filters[:dtend].blank?
       conditions[0] << "created_at <= :dtend"
     end
